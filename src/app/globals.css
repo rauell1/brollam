@@ -1,0 +1,267 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+  Brollam Partners design tokens.
+  Dark, editorial, warm gold accent. Single dark theme.
+*/
+:root {
+  --background: #0b0b0a;
+  --surface: #151515;
+  --card: #1b1b1b;
+  --card-raised: #212120;
+  --foreground: #f4f1ea;
+  --muted-foreground: #a5a29b;
+  --accent: #c99a3d;
+  --accent-strong: #dcb25e;
+  --accent-foreground: #131109;
+  --border: #292927;
+  --border-strong: #3c3c38;
+  --input: #22221f;
+  --success: #8fae7b;
+  --success-foreground: #10160c;
+  --warning: #d9b45c;
+  --warning-foreground: #171207;
+  --destructive: #c96a54;
+  --destructive-foreground: #180c08;
+  --ring: #c99a3d;
+
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+  --radius-xl: 16px;
+
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-instrument), "Georgia", serif;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-card: var(--card);
+  --color-card-raised: var(--card-raised);
+  --color-foreground: var(--foreground);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-input: var(--input);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-ring: var(--ring);
+
+  --font-sans: var(--font-sans);
+  --font-display: var(--font-display);
+
+  --radius-xs: var(--radius-xs);
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
+
+  --animate-marquee: marquee 48s linear infinite;
+  --animate-scroll-dot: scroll-dot 2.2s ease-in-out infinite;
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @keyframes scroll-dot {
+    0% {
+      transform: translateY(0);
+      opacity: 0;
+    }
+    25% {
+      opacity: 1;
+    }
+    75% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(18px);
+      opacity: 0;
+    }
+  }
+}
+
+html {
+  scroll-behavior: auto;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Selection */
+::selection {
+  background: color-mix(in srgb, var(--accent) 80%, transparent);
+  color: var(--accent-foreground);
+}
+
+/* Hairline helper for fine editorial rules */
+@utility border-hairline {
+  border-color: color-mix(in srgb, var(--foreground) 10%, transparent);
+}
+
+/* Subtle editorial grain on cinematic surfaces */
+@utility texture-grain {
+  background-image: radial-gradient(
+      circle at 25% 18%,
+      color-mix(in srgb, var(--accent) 7%, transparent),
+      transparent 46%
+    ),
+    radial-gradient(circle at 82% 78%, rgba(255, 255, 255, 0.035), transparent 42%);
+}
+
+/* Dotted blueprint motif used inside bento cards */
+@utility texture-dots {
+  background-image: radial-gradient(
+    color-mix(in srgb, var(--foreground) 16%, transparent) 1px,
+    transparent 1px
+  );
+  background-size: 18px 18px;
+}
+
+@utility texture-lines {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    color-mix(in srgb, var(--foreground) 7%, transparent) 0 1px,
+    transparent 1px 10px
+  );
+}
+
+/* Keyboard focus */
+:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 3px;
+  border-radius: var(--radius-xs);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Scrollbar, kept quiet */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+::-webkit-scrollbar-thumb {
+  background: #2e2e2b;
+  border-radius: 8px;
+  border: 2px solid var(--background);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3c3c38;
+}
+
+/* Prose styles for article and legal content */
+.prose-editorial {
+  color: var(--muted-foreground);
+  font-size: 1.0625rem;
+  line-height: 1.85;
+}
+.prose-editorial > * + * {
+  margin-top: 1.4em;
+}
+.prose-editorial h2,
+.prose-editorial h3,
+.prose-editorial h4 {
+  color: var(--foreground);
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: 1.2;
+  margin-top: 2em;
+}
+.prose-editorial h2 {
+  font-size: 1.9rem;
+}
+.prose-editorial h3 {
+  font-size: 1.45rem;
+}
+.prose-editorial p {
+  margin: 0;
+}
+.prose-editorial strong {
+  color: var(--foreground);
+  font-weight: 600;
+}
+.prose-editorial em {
+  color: var(--foreground);
+}
+.prose-editorial a {
+  color: var(--accent-strong);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--accent) 45%, transparent);
+  text-underline-offset: 4px;
+}
+.prose-editorial a:hover {
+  color: var(--accent);
+}
+.prose-editorial ul,
+.prose-editorial ol {
+  padding-left: 1.4em;
+  display: grid;
+  gap: 0.55em;
+}
+.prose-editorial ul {
+  list-style: none;
+}
+.prose-editorial ul li {
+  position: relative;
+}
+.prose-editorial ul li::before {
+  content: "";
+  position: absolute;
+  left: -1.15em;
+  top: 0.72em;
+  width: 5px;
+  height: 5px;
+  background: var(--accent);
+}
+.prose-editorial ol {
+  list-style: decimal;
+}
+.prose-editorial blockquote {
+  border-left: 2px solid var(--accent);
+  padding-left: 1.4em;
+  color: var(--foreground);
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  line-height: 1.5;
+  font-style: italic;
+}
+.prose-editorial hr {
+  border: 0;
+  border-top: 1px solid var(--border);
+  margin: 2.4em 0;
+}
