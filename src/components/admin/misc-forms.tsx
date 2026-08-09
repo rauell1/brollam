@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import { upsertCareer } from "@/lib/actions/admin/careers";
 import { upsertStatistic, upsertMediaItem } from "@/lib/actions/admin/site";
 import { upsertUser } from "@/lib/actions/admin/users";
@@ -14,6 +14,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Field, FormAlerts, FormPanel, SubmitButton, SwitchField } from "./form-fields";
+import { MediaUpload } from "./media-upload";
 
 /* ---------------------------------- Career ---------------------------------- */
 
@@ -160,23 +161,70 @@ export interface MediaFormData {
   category: string;
 }
 
-export function MediaForm({ item }: { item?: MediaFormData }) {
+/** Maps a MIME type onto the library's coarse media categories. */
+function mediaTypeFor(contentType: string): MediaFormData["type"] {
+  if (contentType.startsWith("image/")) return "IMAGE";
+  if (contentType.startsWith("video/")) return "VIDEO";
+  return "DOCUMENT";
+}
+
+/** Turns "brand-guidelines-v2.pdf" into "Brand Guidelines V2" for the title. */
+function titleFromFileName(fileName: string): string {
+  return fileName
+    .replace(/\.[^.]+$/, "")
+    .replace(/[-_]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+    .replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
+export function MediaForm({
+  item,
+  storageReady = false,
+}: {
+  item?: MediaFormData;
+  storageReady?: boolean;
+}) {
   const action = upsertMediaItem.bind(null, item?.id ?? null);
   const [state, formAction] = useActionState(action, idleState);
+  const [url, setUrl] = useState(item?.url ?? "");
+  const [type, setType] = useState<MediaFormData["type"]>(item?.type ?? "IMAGE");
+  const [title, setTitle] = useState(item?.title ?? "");
 
   return (
     <form action={formAction} className="space-y-6">
       <FormAlerts state={state} />
       <FormPanel
         title="Media Item"
-        description="The library stores metadata and URLs only. Upload binaries to your CDN or object storage and record the URL here."
+        description={
+          storageReady
+            ? "Upload a file to object storage, or paste the URL of an asset hosted elsewhere. The library stores metadata and URLs only."
+            : "The library stores metadata and URLs only. Upload binaries to your CDN or object storage and record the URL here."
+        }
       >
+        {storageReady ? (
+          <MediaUpload
+            onUploaded={({ url: uploadedUrl, contentType, fileName }) => {
+              setUrl(uploadedUrl);
+              setType(mediaTypeFor(contentType));
+              // Only suggest a title when the editor has not written one.
+              setTitle((current) => current || titleFromFileName(fileName));
+            }}
+          />
+        ) : null}
+
         <div className="grid gap-5 sm:grid-cols-[1.4fr_200px]">
           <Field label="Title" htmlFor="title" required error={state.fieldErrors?.title}>
-            <Input id="title" name="title" defaultValue={item?.title} aria-invalid={Boolean(state.fieldErrors?.title)} />
+            <Input
+              id="title"
+              name="title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              aria-invalid={Boolean(state.fieldErrors?.title)}
+            />
           </Field>
           <Field label="Type" htmlFor="type">
-            <Select name="type" defaultValue={item?.type ?? "IMAGE"}>
+            <Select name="type" value={type} onValueChange={(v) => setType(v as MediaFormData["type"])}>
               <SelectTrigger id="type">
                 <SelectValue />
               </SelectTrigger>
@@ -189,7 +237,14 @@ export function MediaForm({ item }: { item?: MediaFormData }) {
           </Field>
         </div>
         <Field label="URL" htmlFor="url" required error={state.fieldErrors?.url} hint="https://... or /media/...">
-          <Input id="url" name="url" defaultValue={item?.url} spellCheck={false} aria-invalid={Boolean(state.fieldErrors?.url)} />
+          <Input
+            id="url"
+            name="url"
+            value={url}
+            onChange={(e) => setUrl(e.target.value)}
+            spellCheck={false}
+            aria-invalid={Boolean(state.fieldErrors?.url)}
+          />
         </Field>
         <div className="grid gap-5 sm:grid-cols-2">
           <Field label="Alt text" htmlFor="altText" hint="describes the media for screen readers">
