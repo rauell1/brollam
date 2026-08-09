@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 import { requireFullAdmin } from "@/lib/auth/guard";
 import { requireDb, schema } from "@/lib/db/client";
 import { hashPassword } from "@/lib/auth/password";
+import { revokeUserSessions } from "@/lib/auth/session-store";
 import { userSchema } from "@/lib/validations";
 import { formString, parseWith, type ActionState } from "./helpers";
 
@@ -14,7 +15,7 @@ export async function upsertUser(
   _prev: ActionState,
   formData: FormData,
 ): Promise<ActionState> {
-  await requireFullAdmin();
+  const actor = await requireFullAdmin();
   const db = requireDb();
 
   const parsed = parseWith(userSchema, {
@@ -49,6 +50,13 @@ export async function upsertUser(
         values.passwordHash = await hashPassword(parsed.data.password);
       }
       await db.update(schema.users).set(values).where(eq(schema.users.id, id));
+
+      // A rotated password must invalidate anything issued against the old
+      // one. Keep the acting session alive so an admin changing their own
+      // password is not signed out mid task.
+      if (parsed.data.password) {
+        await revokeUserSessions(id, id === actor.sub ? actor.jti : undefined);
+      }
     } else {
       await db.insert(schema.users).values({
         name: parsed.data.name,

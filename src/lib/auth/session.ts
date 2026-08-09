@@ -1,10 +1,22 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
 import { cookies } from "next/headers";
 
+/**
+ * Cookie and token primitives only.
+ *
+ * This module must not import the database client: `proxy.ts` pulls it in
+ * for the optimistic edge check, and dragging Drizzle into that bundle
+ * would run on every request. Stateful session records live in
+ * ./session-store, which is only reachable from server components and
+ * server actions.
+ */
+
 export const SESSION_COOKIE = "brollam_admin_session";
-const SESSION_TTL_SECONDS = 60 * 60 * 24 * 7; // 7 days
+export const SESSION_TTL_SECONDS = 60 * 60 * 24 * 7; // 7 days
 
 export interface SessionPayload {
+  /** Session record id. Must still resolve to a live row in admin_sessions. */
+  jti: string;
   sub: string;
   name: string;
   email: string;
@@ -41,48 +53,42 @@ function decode(token: string): SessionPayload | null {
   if (a.length !== b.length || !timingSafeEqual(a, b)) return null;
   try {
     const payload = JSON.parse(Buffer.from(body, "base64url").toString("utf8")) as SessionPayload;
-    if (!payload.sub || !payload.exp || payload.exp * 1000 < Date.now()) return null;
+    if (!payload.sub || !payload.jti || !payload.exp) return null;
+    if (payload.exp * 1000 < Date.now()) return null;
     return payload;
   } catch {
     return null;
   }
 }
 
-/** Stateless, integrity checked decode. Safe to call in proxy as an optimistic check. */
+/**
+ * Stateless, integrity checked decode. Proves the cookie was issued by us
+ * and has not expired; it cannot prove the session is still live. Safe as
+ * the optimistic proxy check, never sufficient on its own for access.
+ */
 export function peekSession(token: string | undefined | null): SessionPayload | null {
   if (!token) return null;
   return decode(token);
 }
 
-export async function createSession(user: {
-  id: string;
-  name: string;
-  email: string;
-  role: "ADMIN" | "EDITOR";
-}): Promise<void> {
-  const payload: SessionPayload = {
-    sub: user.id,
-    name: user.name,
-    email: user.email,
-    role: user.role,
-    exp: Math.floor(Date.now() / 1000) + SESSION_TTL_SECONDS,
-  };
+/** Stateless read of the current request's cookie. Not an authorization check. */
+export async function readSessionCookie(): Promise<SessionPayload | null> {
+  const store = await cookies();
+  return peekSession(store.get(SESSION_COOKIE)?.value);
+}
+
+export async function writeSessionCookie(payload: SessionPayload): Promise<void> {
   const store = await cookies();
   store.set(SESSION_COOKIE, encode(payload), {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
     path: "/",
-    maxAge: SESSION_TTL_SECONDS,
+    expires: new Date(payload.exp * 1000),
   });
 }
 
-export async function destroySession(): Promise<void> {
+export async function clearSessionCookie(): Promise<void> {
   const store = await cookies();
   store.delete(SESSION_COOKIE);
-}
-
-export async function getSession(): Promise<SessionPayload | null> {
-  const store = await cookies();
-  return peekSession(store.get(SESSION_COOKIE)?.value);
 }

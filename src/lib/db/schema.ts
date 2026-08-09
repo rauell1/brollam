@@ -51,6 +51,33 @@ export const users = pgTable(
   (t) => [uniqueIndex("users_email_unique").on(t.email)],
 );
 
+/**
+ * Server side admin sessions.
+ *
+ * The signed cookie carries a `jti` that must still resolve to a live row
+ * here, so sign out, forced revocation, and password rotation take effect
+ * immediately instead of waiting out the seven day cookie TTL. The cascade
+ * means deleting a user also drops every session they hold.
+ */
+export const adminSessions = pgTable(
+  "admin_sessions",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    userId: uuid("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
+    revokedAt: timestamp("revoked_at", { withTimezone: true }),
+    ip: text("ip").notNull().default(""),
+    userAgent: text("user_agent").notNull().default(""),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => [
+    index("admin_sessions_user_idx").on(t.userId),
+    index("admin_sessions_expires_idx").on(t.expiresAt),
+  ],
+);
+
 /* ------------------------------------------------------------------ */
 /* Services                                                            */
 /* ------------------------------------------------------------------ */
@@ -330,6 +357,17 @@ export const mediaItems = pgTable(
 /* ------------------------------------------------------------------ */
 /* Relations                                                           */
 /* ------------------------------------------------------------------ */
+
+export const usersRelations = relations(users, ({ many }) => ({
+  sessions: many(adminSessions),
+}));
+
+export const adminSessionsRelations = relations(adminSessions, ({ one }) => ({
+  user: one(users, {
+    fields: [adminSessions.userId],
+    references: [users.id],
+  }),
+}));
 
 export const servicesRelations = relations(services, ({ many }) => ({
   capabilities: many(serviceCapabilities),
