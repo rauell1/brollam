@@ -1,9 +1,9 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useMotionTemplate, useMotionValue, useSpring } from "motion/react";
+import { m, useMotionTemplate, useMotionValue, useSpring } from "motion/react";
 import { Container } from "./container";
-import { Reveal, RevealGroup, RevealItem } from "./reveal";
+import { RevealGroup, RevealItem } from "./reveal";
 import { SectionHeader } from "./section-header";
 
 const steps = [
@@ -54,7 +54,7 @@ function TiltCard({ num, title, description }: { num: string; title: string; des
   };
 
   return (
-    <motion.div
+    <m.div
       ref={ref}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
@@ -72,7 +72,7 @@ function TiltCard({ num, title, description }: { num: string; title: string; des
       <p style={{ transform: "translateZ(20px)" }} className="mt-6 text-sm leading-relaxed text-muted-foreground">
         {description}
       </p>
-    </motion.div>
+    </m.div>
   );
 }
 

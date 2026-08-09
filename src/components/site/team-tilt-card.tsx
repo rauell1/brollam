@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useMotionTemplate, useMotionValue, useSpring } from "motion/react";
+import { m, useMotionTemplate, useMotionValue, useSpring } from "motion/react";
 
 export function TeamTiltCard({
   name,
@@ -37,7 +37,7 @@ export function TeamTiltCard({
   };
 
   return (
-    <motion.div
+    <m.div
       ref={ref}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
@@ -53,6 +53,6 @@ export function TeamTiltCard({
           {bio}
         </p>
       </div>
-    </motion.div>
+    </m.div>
   );
 }

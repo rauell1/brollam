@@ -1,6 +1,7 @@
 import { Header } from "@/components/site/header";
 import { Footer } from "@/components/site/footer";
 import { MotionProvider } from "@/components/site/motion";
+import { ScrollProgress } from "@/components/site/scroll-progress";
 import { listServices } from "@/lib/data/public";
 
 export default async function SiteLayout({ children }: { children: React.ReactNode }) {
@@ -14,6 +15,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
       >
         Skip to content
       </a>
+      <ScrollProgress />
       <Header />
       <div id="main-content" className="flex-1">
         {children}

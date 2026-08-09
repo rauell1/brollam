@@ -1,4 +1,4 @@
-import { CalendarClock, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
+import { ArrowUpRight, CalendarClock, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { Container } from "@/components/site/container";
 import { PageHero } from "@/components/site/page-hero";
 import { ContactForm } from "@/components/site/contact-form";
@@ -76,6 +76,40 @@ export default async function ContactPage() {
                   project is urgent, say so in the message.
                 </p>
               </Reveal>
+
+              {/* Direct channels. Each is env-configured, so this list renders
+                  only the ones that are actually set. */}
+              {channels.length > 0 ? (
+                <Reveal delay={0.06}>
+                  <ul className="mt-8 grid gap-px overflow-hidden rounded-md border border-border bg-border">
+                    {channels.map((channel) => (
+                      <li key={channel.label}>
+                        <a
+                          href={channel.href}
+                          {...(channel.href.startsWith("http")
+                            ? { target: "_blank", rel: "noreferrer" }
+                            : {})}
+                          className="group flex items-center gap-4 bg-card px-5 py-4 transition-colors hover:bg-card-raised"
+                        >
+                          <channel.icon
+                            className="h-4 w-4 shrink-0 text-accent"
+                            aria-hidden="true"
+                          />
+                          <span className="min-w-0">
+                            <span className="block font-mono text-[0.6rem] tracking-[0.2em] text-muted-foreground uppercase">
+                              {channel.label}
+                            </span>
+                            <span className="mt-1 block truncate text-sm font-medium text-foreground transition-colors group-hover:text-accent-strong">
+                              {channel.value}
+                            </span>
+                          </span>
+                          <ArrowUpRight className="ml-auto h-4 w-4 shrink-0 text-muted-foreground transition-all group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-accent" />
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </Reveal>
+              ) : null}
 
               <Reveal delay={0.1}>
                 <div className="mt-8 grid gap-4">

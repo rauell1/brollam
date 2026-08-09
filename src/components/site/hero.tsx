@@ -4,6 +4,8 @@ import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { Container } from "./container";
 import dynamic from "next/dynamic";
 import { Reveal } from "./reveal";
+import { KineticText } from "./kinetic-text";
+import { Magnetic } from "./magnetic";
 
 const HeroVideo = dynamic(() => import("./video-hero").then(mod => mod.HeroVideo));
 
@@ -36,15 +38,18 @@ export function Hero() {
         <Reveal delay={0.05}>
           <p className="flex items-center gap-3 font-mono text-[0.68rem] tracking-[0.22em] text-accent uppercase">
             <span className="inline-block h-px w-8 bg-accent" aria-hidden="true" />
-            For Startups Building Africa's Future
+            For Startups Building Africa&apos;s Future
           </p>
         </Reveal>
-        <Reveal delay={0.15}>
-          <h1 className="mt-6 max-w-5xl font-display text-[clamp(2.6rem,8.2vw,6.4rem)] leading-[1.04] text-balance text-foreground">
-            <span className="block">Great work,</span>
-            <span className="block italic text-accent">finally seen.</span>
-          </h1>
-        </Reveal>
+        <h1 className="mt-6 max-w-5xl font-display text-[clamp(2.6rem,8.2vw,6.4rem)] leading-[1.04] text-balance text-foreground">
+          <KineticText as="span" text="Great work," delay={0.15} className="block" />
+          <KineticText
+            as="span"
+            text="finally seen."
+            delay={0.32}
+            className="block text-accent italic"
+          />
+        </h1>
         <Reveal delay={0.3}>
           <p className="mt-7 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
             We give ambitious African startups the positioning, story and reach to get in front of the investors, partners and customers who decide what happens next.
@@ -52,20 +57,29 @@ export function Hero() {
         </Reveal>
         <Reveal delay={0.42}>
           <div className="mt-10 flex flex-col gap-3 min-[420px]:flex-row min-[420px]:gap-4">
-            <Link
-              href="/contact"
-              className="group inline-flex h-12 items-center justify-center gap-2 rounded-sm bg-accent px-7 text-sm font-semibold text-accent-foreground transition-colors hover:bg-accent-strong"
-            >
-              Start a Conversation
-              <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-            </Link>
-            <Link
-              href="/#what-we-do"
-              className="group inline-flex h-12 items-center justify-center gap-2 rounded-sm border border-border-strong px-7 text-sm font-semibold text-foreground transition-colors hover:border-accent hover:text-accent"
-            >
-              See What We Do
-              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-            </Link>
+            <Magnetic className="inline-flex">
+              <Link
+                href="/contact"
+                className="group relative inline-flex h-12 items-center justify-center gap-2 overflow-hidden rounded-sm bg-accent px-7 text-sm font-semibold text-accent-foreground"
+              >
+                {/* Sheen sweeps across on hover */}
+                <span
+                  aria-hidden="true"
+                  className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent transition-transform duration-700 group-hover:translate-x-full"
+                />
+                <span className="relative">Start a Conversation</span>
+                <ArrowUpRight className="relative h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </Link>
+            </Magnetic>
+            <Magnetic className="inline-flex" strength={0.25}>
+              <Link
+                href="/#what-we-do"
+                className="group inline-flex h-12 items-center justify-center gap-2 rounded-sm border border-border-strong px-7 text-sm font-semibold text-foreground transition-colors hover:border-accent hover:text-accent"
+              >
+                See What We Do
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+              </Link>
+            </Magnetic>
           </div>
         </Reveal>
         <Reveal delay={0.52}>

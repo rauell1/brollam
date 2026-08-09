@@ -8,6 +8,7 @@ import { ProcessTimeline } from "@/components/site/process-timeline";
 import { WorkGrid } from "@/components/site/work-grid";
 import { LogoWall } from "@/components/site/logo-wall";
 import { InsightsSection } from "@/components/site/insights-section";
+import { Testimonials } from "@/components/site/testimonials";
 import { TeamSection } from "@/components/site/team-section";
 import { InvestWithUs } from "@/components/site/invest-with-us";
 import { CareersTeaser } from "@/components/site/careers-teaser";
@@ -18,6 +19,7 @@ import {
   getFeaturedCaseStudy,
   listCaseStudies,
   listInsights,
+  listPublishedTestimonials,
 } from "@/lib/data/public";
 
 export const revalidate = 300;
@@ -27,10 +29,12 @@ export default async function HomePage() {
     featuredCaseStudy,
     caseStudies,
     insights,
+    testimonials,
   ] = await Promise.all([
     getFeaturedCaseStudy(),
     listCaseStudies(),
     listInsights(),
+    listPublishedTestimonials(),
   ]);
 
   return (
@@ -64,6 +68,9 @@ export default async function HomePage() {
       
       {/* 9. Companies We've Worked With */}
       <LogoWall />
+
+      {/* 9b. Client testimonials — renders only once real quotes are published */}
+      <Testimonials testimonials={testimonials} />
       
       {/* 10. Insights */}
       <InsightsSection insights={insights} />

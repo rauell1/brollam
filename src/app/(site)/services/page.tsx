@@ -1,5 +1,6 @@
 import { PageHero } from "@/components/site/page-hero";
 import { ServicesCarousel } from "@/components/site/services-carousel";
+import { ServicesIndex } from "@/components/site/services-index";
 import { ProcessTimeline } from "@/components/site/process-timeline";
 import { CtaSection } from "@/components/site/cta-section";
 import { listServices } from "@/lib/data/public";
@@ -37,6 +38,7 @@ export default async function ServicesPage() {
         description="Every service can stand alone. Together they form a complete visibility system: strategy, story, channels, technology, and commercial execution."
       />
       <ServicesCarousel />
+      <ServicesIndex services={services} />
       <ProcessTimeline />
       <CtaSection />
     </>

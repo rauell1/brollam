@@ -13,11 +13,33 @@ import { ThemeToggle } from "./theme-toggle";
 export function Header() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
+  const [hidden, setHidden] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
-    onScroll();
+    let lastY = window.scrollY;
+    let ticking = false;
+
+    const update = () => {
+      const y = window.scrollY;
+      setScrolled(y > 24);
+      // Retreat while scrolling down past the hero, return the moment the
+      // user scrolls back up. Never hide while the mobile menu is open.
+      const delta = y - lastY;
+      if (Math.abs(delta) > 6) {
+        setHidden(delta > 0 && y > 220);
+        lastY = y;
+      }
+      ticking = false;
+    };
+
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(update);
+    };
+
+    update();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
@@ -28,11 +50,12 @@ export function Header() {
   return (
     <header
       className={cn(
-        "fixed inset-x-0 top-0 z-40 transition-all duration-500",
+        "fixed inset-x-0 top-0 z-40 transition-[transform,background-color,border-color,backdrop-filter] duration-500 ease-out",
         pathname === "/" && !scrolled && "theme-cinematic",
         scrolled
           ? "border-b border-border/80 bg-background/85 backdrop-blur-md"
           : "border-b border-transparent bg-transparent",
+        hidden && !menuOpen ? "-translate-y-full" : "translate-y-0",
       )}
     >
       <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-5 sm:h-[4.5rem] sm:px-8">

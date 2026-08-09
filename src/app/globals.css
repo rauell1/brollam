@@ -158,10 +158,106 @@
       transform: scale(1.08);
     }
   }
+
+  /* ---- Generative service artwork ---- */
+
+  @keyframes breathe {
+    0%,
+    100% {
+      transform: scale(1);
+      opacity: 0.75;
+    }
+    50% {
+      transform: scale(1.06);
+      opacity: 1;
+    }
+  }
+
+  @keyframes pulse-out {
+    0% {
+      opacity: 0;
+      transform: scale(0.6);
+    }
+    25% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+      transform: scale(1.35);
+    }
+  }
+
+  @keyframes grow-up {
+    0%,
+    100% {
+      transform: scaleY(0.82);
+    }
+    50% {
+      transform: scaleY(1);
+    }
+  }
+
+  @keyframes draw {
+    0% {
+      stroke-dashoffset: 340;
+    }
+    45%,
+    100% {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @keyframes blink {
+    0%,
+    100% {
+      opacity: 0.35;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes spin-slow {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* Slow drifting colour field behind the commitment statement */
+  @keyframes aurora-drift {
+    0%,
+    100% {
+      transform: translate3d(-6%, -3%, 0) scale(1.1);
+    }
+    33% {
+      transform: translate3d(6%, 4%, 0) scale(1.25);
+    }
+    66% {
+      transform: translate3d(-3%, 7%, 0) scale(1.15);
+    }
+  }
+
+  @keyframes shimmer {
+    from {
+      background-position: 200% 0;
+    }
+    to {
+      background-position: -200% 0;
+    }
+  }
 }
 
+/*
+  Anchor links (/#what-we-do, /#services) glide instead of jumping, and stop
+  clear of the fixed header rather than tucking the heading underneath it.
+  The reduced-motion block below resets this to `auto`.
+*/
 html {
-  scroll-behavior: auto;
+  scroll-behavior: smooth;
+  scroll-padding-top: 6rem;
 }
 
 body {

@@ -1,48 +1,49 @@
 "use client";
 
 import { useRef, useState } from "react";
-import Image from "next/image";
-import { ArrowRight } from "lucide-react";
+import Link from "next/link";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { Container } from "./container";
 import { Reveal } from "./reveal";
 import { SectionHeader } from "./section-header";
+import { ServiceVisual } from "./service-visual";
 
 const services = [
   {
     num: "01",
     title: "Brand & Narrative Strategy",
     description: "positioning, messaging and identity",
-    image: "/media/dev/service-1.jpg",
+    slug: "brand-and-narrative-strategy",
   },
   {
     num: "02",
     title: "Communications & Media (PR)",
     description: "press strategy and media relations",
-    image: "/media/dev/service-2.jpg",
+    slug: "communications-and-media-pr",
   },
   {
     num: "03",
     title: "Marketing & Growth Campaigns",
     description: "launches and digital campaigns",
-    image: "/media/dev/service-3.jpg",
+    slug: "marketing-and-growth-campaigns",
   },
   {
     num: "04",
     title: "Digital Presence & Technology",
     description: "websites and digital products",
-    image: "/media/dev/service-4.jpg",
+    slug: "digital-presence-and-technology",
   },
   {
     num: "05",
     title: "Investor & Fundraise Communications",
     description: "pitch narratives and data storytelling",
-    image: "/media/dev/service-5.jpg",
+    slug: "investor-and-fundraise-communications",
   },
   {
     num: "06",
     title: "Sales & Partnership Development",
     description: "B2B pipelines and corporate partnerships",
-    image: "/media/dev/service-6.jpg",
+    slug: "sales-and-partnership-development",
   },
 ];
 
@@ -52,9 +53,12 @@ export function ServicesCarousel() {
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
 
+  const draggedRef = useRef(false);
+
   const handleMouseDown = (e: React.MouseEvent) => {
     if (!carouselRef.current) return;
     setIsDragging(true);
+    draggedRef.current = false;
     setStartX(e.pageX - carouselRef.current.offsetLeft);
     setScrollLeft(carouselRef.current.scrollLeft);
   };
@@ -72,7 +76,14 @@ export function ServicesCarousel() {
     e.preventDefault();
     const x = e.pageX - carouselRef.current.offsetLeft;
     const walk = (x - startX) * 2;
+    // Past a few pixels this is a drag, not a click — remember so the
+    // pointer-up doesn't navigate the card the cursor happens to be over.
+    if (Math.abs(walk) > 6) draggedRef.current = true;
     carouselRef.current.scrollLeft = scrollLeft - walk;
+  };
+
+  const suppressClickAfterDrag = (e: React.MouseEvent) => {
+    if (draggedRef.current) e.preventDefault();
   };
 
   return (
@@ -107,39 +118,34 @@ export function ServicesCarousel() {
             <Reveal
               key={service.num}
               delay={0.1 * i}
-              className="relative aspect-[3/4] w-[280px] shrink-0 snap-start overflow-hidden rounded-xl bg-surface sm:w-[360px] md:w-[420px]"
+              className="w-[280px] shrink-0 snap-start sm:w-[360px] md:w-[420px]"
             >
-              <div className="absolute inset-0 pointer-events-none">
-                <div className="absolute inset-0 bg-[#0f1a16]" />
-                <div className="absolute inset-0 bg-texture-dots opacity-10" />
-                <Image
-                  src={service.image}
-                  alt={service.title}
-                  fill
-                  className="object-cover opacity-80"
-                  onError={(e) => { e.currentTarget.style.display = 'none'; }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-background/95 via-background/30 to-transparent" />
-              </div>
+              <Link
+                href={`/services/${service.slug}`}
+                onClick={suppressClickAfterDrag}
+                className="group relative flex aspect-[3/4] flex-col justify-between overflow-hidden rounded-xl border border-white/5 p-6 transition-[border-color,transform] duration-500 hover:-translate-y-1.5 hover:border-accent/40 sm:p-8"
+              >
+                <ServiceVisual index={i} />
 
-              {/* Watermark number — visible as a design anchor when no photo loads */}
-              <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none" aria-hidden="true">
-                <span className="font-mono text-[8rem] font-bold leading-none text-white/[0.04]">
-                  {service.num}
-                </span>
-              </div>
-
-              <div className="relative flex h-full flex-col justify-between p-6 sm:p-8 pointer-events-none">
-                <div className="flex items-center justify-between">
+                <div className="relative flex items-center justify-between">
                   <span className="flex h-8 w-8 items-center justify-center rounded-full bg-accent font-mono text-xs text-accent-foreground">
                     {service.num}
                   </span>
+                  <ArrowUpRight className="h-5 w-5 text-white/25 transition-all duration-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-accent" />
                 </div>
-                <div>
-                  <h3 className="font-display text-xl text-foreground sm:text-2xl">{service.title}</h3>
-                  <p className="mt-3 font-mono text-[0.68rem] tracking-[0.12em] text-foreground/60 uppercase">{service.description}</p>
+
+                <div className="relative">
+                  <h3 className="font-display text-xl text-white sm:text-2xl">{service.title}</h3>
+                  <p className="mt-3 font-mono text-[0.68rem] tracking-[0.12em] text-white/55 uppercase">
+                    {service.description}
+                  </p>
+                  {/* Underline wipes in on hover to signal the card is a link */}
+                  <span
+                    aria-hidden="true"
+                    className="mt-5 block h-px w-full origin-left scale-x-0 bg-accent transition-transform duration-500 group-hover:scale-x-100"
+                  />
                 </div>
-              </div>
+              </Link>
             </Reveal>
           ))}
           {/* Spacer for end of scroll */}

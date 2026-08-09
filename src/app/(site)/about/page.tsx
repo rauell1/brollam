@@ -9,7 +9,7 @@ import { ProcessTimeline } from "@/components/site/process-timeline";
 import { TeamSection } from "@/components/site/team-section";
 import { CtaSection } from "@/components/site/cta-section";
 import { teamGroups } from "@/lib/content/sections";
-import { listActiveTeam, listServices } from "@/lib/data/public";
+import { listServices } from "@/lib/data/public";
 import { pageMetadata, JsonLd, aboutPageJsonLd } from "@/lib/seo";
 
 export const revalidate = 300;
@@ -22,7 +22,7 @@ export const metadata = pageMetadata({
 });
 
 export default async function AboutPage() {
-  const [team, services] = await Promise.all([listActiveTeam(), listServices()]);
+  const services = await listServices();
 
   return (
     <>
