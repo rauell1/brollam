@@ -95,8 +95,17 @@ origins with your own before applying.
 ]
 ```
 
+Apply with the bundled script, which reads the same config the app uses:
+
 ```bash
-aws s3api put-bucket-cors --bucket brollam-media --cors-configuration file://cors.json
+npm run storage:cors
+```
+
+Override the origins with a comma separated `MEDIA_CORS_ORIGINS`. The
+equivalent by hand, if the AWS CLI is installed:
+
+```bash
+aws s3api put-bucket-cors --bucket brollam-media --endpoint-url "$S3_ENDPOINT" --cors-configuration file://cors.json
 ```
 
 Only `POST` is needed. Reads are plain public GETs and never preflight.
