@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
+import { Analytics } from "@vercel/analytics/next";
 import { site } from "@/lib/config";
 import "./globals.css";
 
@@ -63,6 +64,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html lang="en" className={`${manrope.variable} ${instrument.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col bg-background font-sans text-foreground">
         {children}
+        <Analytics />
       </body>
     </html>
   );
