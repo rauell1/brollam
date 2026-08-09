@@ -4,8 +4,8 @@ import { eq } from "drizzle-orm";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { getDb, schema } from "@/lib/db/client";
-import { createSession, destroySession } from "@/lib/auth/session";
-import { verifyPassword } from "@/lib/auth/password";
+import { createSession, destroySession } from "@/lib/auth/session-store";
+import { fakeVerifyPassword, verifyPassword } from "@/lib/auth/password";
 import { rateLimit } from "@/lib/rate-limit";
 import { loginSchema } from "@/lib/validations";
 import type { ActionState } from "./helpers";
@@ -45,12 +45,20 @@ export async function login(
     where: eq(schema.users.email, email),
   });
 
-  // Deliberately generic: never reveal whether the account exists.
-  if (!user || !(await verifyPassword(parsed.data.password, user.passwordHash))) {
+  // Deliberately generic, in both the message and the time taken: an unknown
+  // email still pays the full scrypt cost so latency reveals nothing.
+  const passwordOk = user
+    ? await verifyPassword(parsed.data.password, user.passwordHash)
+    : await fakeVerifyPassword(parsed.data.password);
+
+  if (!user || !passwordOk) {
     return { error: "Incorrect email or password." };
   }
 
-  await createSession({ id: user.id, name: user.name, email: user.email, role: user.role });
+  await createSession(
+    { id: user.id, name: user.name, email: user.email, role: user.role },
+    { ip, userAgent: headerStore.get("user-agent") ?? "" },
+  );
   await db
     .update(schema.users)
     .set({ lastLoginAt: new Date() })

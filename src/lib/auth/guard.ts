@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
-import { getSession, type SessionPayload } from "./session";
+import type { SessionPayload } from "./session";
+import { getSession } from "./session-store";
 
 /**
  * Full authorization check for admin server components and actions.
