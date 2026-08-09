@@ -14,7 +14,7 @@ export function Hero() {
   const mobileVideoUrl = process.env.NEXT_PUBLIC_HERO_VIDEO_MOBILE_URL || null;
 
   return (
-    <section className="relative flex min-h-[100svh] items-end overflow-hidden" aria-label="Introduction">
+    <section className="dark relative flex min-h-[100svh] items-end overflow-hidden" aria-label="Introduction">
       <div className="absolute inset-0">
         <Image
           src={POSTER}

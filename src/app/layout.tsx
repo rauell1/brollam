@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
+import { Analytics } from "@vercel/analytics/next";
 import { site } from "@/lib/config";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import Script from "next/script";
@@ -57,8 +58,25 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#0b0b0a",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#F7F4EC" },
+    { media: "(prefers-color-scheme: dark)", color: "#0B0B0A" },
+  ],
 };
+
+const themeScript = `
+  (function () {
+    var isDark = false;
+    try {
+      var storedTheme = localStorage.getItem("brollam-theme");
+      isDark = storedTheme === "dark" ||
+        (storedTheme !== "light" && window.matchMedia("(prefers-color-scheme: dark)").matches);
+    } catch (error) {
+      isDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+    }
+    document.documentElement.classList.toggle("dark", Boolean(isDark));
+  })();
+`;
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   const jsonLd = {
@@ -71,7 +89,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   };
 
   return (
-    <html lang="en" className={`${manrope.variable} ${instrument.variable} h-full antialiased`}>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${manrope.variable} ${instrument.variable} h-full antialiased`}
+    >
       <head>
         <Script
           src="https://app.secureprivacy.ai/script/6a709ff331556dc398e08e34.js"
@@ -81,9 +103,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body className="flex min-h-full flex-col bg-background font-sans text-foreground">
         {children}
+        <Analytics />
       </body>
       <GoogleAnalytics gaId="G-PV5JV9248L" />
     </html>
