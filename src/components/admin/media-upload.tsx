@@ -43,11 +43,20 @@ export function MediaUpload({ onUploaded, disabled }: MediaUploadProps) {
         throw new Error(body.error ?? "Could not prepare the upload.");
       }
 
-      const { uploadUrl, fields, publicUrl } = (await response.json()) as {
+      const { uploadUrl, fields, publicUrl, maxBytes } = (await response.json()) as {
         uploadUrl: string;
         fields: Record<string, string>;
         publicUrl: string;
+        maxBytes: number;
       };
+
+      // Storage enforces this too, but providers disagree on the error they
+      // return, so check here to guarantee a readable message.
+      if (maxBytes && file.size > maxBytes) {
+        throw new Error(
+          `That file is ${(file.size / 1024 / 1024).toFixed(1)} MB. The limit is ${Math.floor(maxBytes / 1024 / 1024)} MB.`,
+        );
+      }
 
       setStatus("uploading");
       await postToStorage(uploadUrl, fields, file, setProgress);
@@ -148,7 +157,9 @@ function postToStorage(
     xhr.addEventListener("load", () => {
       if (xhr.status >= 200 && xhr.status < 300) {
         resolve();
-      } else if (xhr.status === 403 && /EntityTooLarge/.test(xhr.responseText)) {
+      } else if (/EntityTooLarge|content-length-range/i.test(xhr.responseText)) {
+        // AWS returns 403 EntityTooLarge; Neon returns 400 InvalidArgument
+        // naming the failed condition. Match either.
         reject(new Error("That file is larger than the upload limit."));
       } else {
         reject(new Error(`Storage rejected the upload (${xhr.status}).`));
