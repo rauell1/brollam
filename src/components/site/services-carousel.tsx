@@ -105,10 +105,20 @@ export function ServicesCarousel() {
         </div>
       </Container>
 
-      <div className="mt-16 w-full pl-5 sm:pl-8 lg:pl-[max(2rem,calc((100vw-80rem)/2+2rem))]">
+      {/*
+        Cards are sized as an exact fraction of the row rather than a fixed
+        pixel width, so a whole number of them fills the container edge to
+        edge: three from lg, two from sm. Previously they were 280/360/420px
+        in a full-bleed row padded only on the left, which left the right side
+        bleeding off screen and the fourth card arbitrarily sliced.
+
+        The mobile width deliberately leaves a sliver of the next card visible
+        as the affordance that the row scrolls.
+      */}
+      <Container className="mt-16">
         <div
           ref={carouselRef}
-          className="flex w-full snap-x snap-mandatory gap-4 overflow-x-auto pb-8 pr-5 sm:gap-6 sm:pr-8 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none'] cursor-grab active:cursor-grabbing"
+          className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-8 sm:gap-6 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none'] cursor-grab active:cursor-grabbing"
           onMouseDown={handleMouseDown}
           onMouseLeave={handleMouseLeave}
           onMouseUp={handleMouseUp}
@@ -118,7 +128,7 @@ export function ServicesCarousel() {
             <Reveal
               key={service.num}
               delay={0.1 * i}
-              className="w-[280px] shrink-0 snap-start sm:w-[360px] md:w-[420px]"
+              className="w-[86%] shrink-0 snap-start sm:w-[calc((100%_-_1.5rem)_/_2)] lg:w-[calc((100%_-_3rem)_/_3)]"
             >
               <Link
                 href={`/services/${service.slug}`}
@@ -148,10 +158,8 @@ export function ServicesCarousel() {
               </Link>
             </Reveal>
           ))}
-          {/* Spacer for end of scroll */}
-          <div className="w-1 shrink-0" aria-hidden="true" />
         </div>
-      </div>
+      </Container>
     </section>
   );
 }
