@@ -11,18 +11,27 @@ import type { NextConfig } from "next";
 function imageHosts(): string[] {
   const hosts = new Set<string>();
 
-  const publicBase = process.env.S3_PUBLIC_BASE_URL;
-  if (publicBase) {
+  // Must mirror getS3Config() in src/lib/storage/s3.ts. If these two drift,
+  // uploads succeed but next/image refuses to serve what was uploaded.
+  const add = (value: string) => {
     try {
-      hosts.add(new URL(publicBase).hostname);
+      hosts.add(new URL(value).hostname);
     } catch {
       // A malformed value should not break the build; it just adds no host.
     }
-  }
+  };
 
+  const publicBase = process.env.S3_PUBLIC_BASE_URL;
+  if (publicBase) add(publicBase);
+
+  const endpoint = process.env.S3_ENDPOINT ?? process.env.AWS_ENDPOINT_URL_S3;
   const bucket = process.env.S3_BUCKET;
   const region = process.env.S3_REGION ?? process.env.AWS_REGION;
-  if (bucket && region) {
+
+  if (endpoint) {
+    // Path style: the bucket is in the path, so the host is the endpoint's.
+    add(endpoint);
+  } else if (bucket && region) {
     hosts.add(`${bucket}.s3.${region}.amazonaws.com`);
   }
 
