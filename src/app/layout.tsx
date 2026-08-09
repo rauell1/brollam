@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import { site } from "@/lib/config";
 import { GoogleAnalytics } from "@next/third-parties/google";
-import { CookieConsent } from "@/components/site/cookie-consent";
+import Script from "next/script";
 import "./globals.css";
 
 /*
@@ -73,28 +73,17 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${manrope.variable} ${instrument.variable} h-full antialiased`}>
       <head>
+        <Script
+          src="https://app.secureprivacy.ai/script/6a709ff331556dc398e08e34.js"
+          strategy="beforeInteractive"
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('consent', 'default', {
-                'analytics_storage': 'denied',
-                'ad_storage': 'denied',
-                'ad_user_data': 'denied',
-                'ad_personalization': 'denied',
-              });
-            `,
-          }}
-        />
       </head>
       <body className="flex min-h-full flex-col bg-background font-sans text-foreground">
         {children}
-        <CookieConsent />
       </body>
       <GoogleAnalytics gaId="G-PV5JV9248L" />
     </html>
