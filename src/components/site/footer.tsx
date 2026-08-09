@@ -7,7 +7,7 @@ export function Footer({ services }: { services: ServiceDto[] }) {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-border bg-background">
+    <footer className="dark border-t border-border bg-background">
       <div className="mx-auto w-full max-w-7xl px-5 py-16 sm:px-8 sm:py-20">
         <div className="grid gap-14 lg:grid-cols-[1.4fr_1fr_1fr_1.1fr] lg:gap-10">
           <div>

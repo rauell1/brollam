@@ -14,7 +14,7 @@ A premium, mobile first, full stack corporate site with a protected content mana
 | --- | --- |
 | Framework | Next.js 16 (App Router, Turbopack) |
 | Language | TypeScript, strict mode |
-| Styling | Tailwind CSS v4, custom design tokens |
+| Styling | Tailwind CSS v4, dual theme custom design tokens |
 | Components | shadcn/ui style primitives on Radix, Lucide icons |
 | Motion | Motion for React (LazyMotion, domAnimation only) |
 | Database | Neon Postgres (serverless) |
@@ -142,7 +142,10 @@ The design rationale behind the build is documented in [`docs/design/`](docs/des
 
 ## Design system
 
-- Near black `#0B0B0A` canvas, warm gold `#C99A3D` accent, warm white `#F4F1EA` text, muted `#A5A29B` secondary text.
+- Light mode uses paper `#F7F4EC`, antique gold `#8A6A24`, text `#1D1B16`, and borders `#DCD5C4`.
+- Dark mode preserves the near black `#0B0B0A` canvas, warm gold `#C99A3D`, warm white `#F4F1EA`, and muted `#A5A29B` secondary text.
+- The theme control appears in the public navigation and admin shell. It stores an explicit choice in `localStorage` under `brollam-theme`; otherwise the initial theme follows `prefers-color-scheme` without a flash before hydration.
+- The hero, final call to action, footer, and selected gold on black artwork remain dark cinematic anchors in either theme.
 - Fine borders, controlled radii, generous negative space, editorial serif (Instrument Serif) for display moments, Manrope for everything functional.
 - Motion is opacity and transform only, once per element, and fully disabled under `prefers-reduced-motion`.
 - No invented bright colors, no gradients behind every section, no decorative blobs: photography, typography, and layout carry the design.
@@ -155,7 +158,7 @@ Copy uses standard punctuation only: commas, colons, semicolons, parentheses, an
 
 ## Accessibility
 
-Semantic HTML with a single h1 per page, skip to content link, keyboard visible focus, Radix accessible dialogs and menu, labeled form controls with error associations, WCAG AA contrast on the dark palette, and full `prefers-reduced-motion` support.
+Semantic HTML with a single h1 per page, skip to content link, keyboard visible focus, Radix accessible dialogs and menu, labeled form controls with error associations, WCAG AA contrast across the light and dark palettes, and full `prefers-reduced-motion` support.
 
 ## Performance
 

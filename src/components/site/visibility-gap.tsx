@@ -12,7 +12,7 @@ export function VisibilityGap() {
       <Container>
         <div className="grid items-start gap-14 lg:grid-cols-2 lg:gap-20">
           <Reveal className="relative order-2 lg:order-1">
-            <div className="relative aspect-[4/5] overflow-hidden rounded-md border border-border sm:aspect-[5/5]">
+            <div className="dark relative aspect-[4/5] overflow-hidden rounded-md border border-border sm:aspect-[5/5]">
               <Image
                 src="/media/dev/visibility-gap.jpg"
                 alt="Abstract editorial artwork representing unseen work becoming visible"
