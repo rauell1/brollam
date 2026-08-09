@@ -49,10 +49,10 @@ export default async function CareersPage() {
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "Careers" }]}
         title={
           <>
-            Do The Best Work Of Your Career, <em className="text-accent italic">In The Open.</em>
+            Work That Spans Design, <em className="text-accent italic">Deals And Deployment.</em>
           </>
         }
-        description="We are a small, senior team that hires deliberately. When a role opens, it appears here with exactly what it involves."
+        description="We bring in operators, strategists and engineers for specific engagements. If that's you, we'd like to hear from you before we need you."
       />
 
       <section className="py-20 sm:py-24" aria-label="Open positions">
@@ -64,10 +64,10 @@ export default async function CareersPage() {
                 title="No open roles right now"
                 description={
                   site.email
-                    ? `There are currently no active openings. When a new role is confirmed it will be listed here. If you believe you belong on this team, you can introduce yourself at ${site.email}.`
-                    : "There are currently no active openings. When a new role is confirmed it will be listed here, so please check back."
+                    ? `No active openings right now — we hire for specific engagements, not a standing roster. If you work across brand, PR, sales or clean energy and want to be on our radar, introduce yourself at ${site.email}.`
+                    : "No active openings right now. We hire for specific engagements, so check back or reach out directly."
                 }
-                action={{ label: "Meet The Team", href: "/about" }}
+                action={{ label: "Join Our Talent Network", href: `/contact?type=talent` }}
               />
             </Reveal>
           ) : (
@@ -109,7 +109,7 @@ export default async function CareersPage() {
                     <div className="border-t border-border px-6 py-8 sm:px-8">
                       {career.description ? (
                         <>
-                          <h3 className="text-[0.68rem] font-semibold tracking-[0.28em] text-accent uppercase">
+                          <h3 className="font-mono text-[0.65rem] tracking-[0.2em] text-accent uppercase">
                             The Role
                           </h3>
                           <RichText content={career.description} className="mt-5 !text-[0.95rem]" />
@@ -117,7 +117,7 @@ export default async function CareersPage() {
                       ) : null}
                       {career.requirements ? (
                         <>
-                          <h3 className="mt-8 text-[0.68rem] font-semibold tracking-[0.28em] text-accent uppercase">
+                          <h3 className="mt-8 font-mono text-[0.65rem] tracking-[0.2em] text-accent uppercase">
                             What You Bring
                           </h3>
                           <RichText content={career.requirements} className="mt-5 !text-[0.95rem]" />

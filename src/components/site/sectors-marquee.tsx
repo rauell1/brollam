@@ -15,7 +15,7 @@ const sectors = [
 
 export function SectorsMarquee() {
   return (
-    <section id="sectors" aria-labelledby="sectors-heading" className="py-24 sm:py-32 overflow-hidden border-t border-border">
+    <section id="sectors" aria-labelledby="sectors-heading" className="py-24 sm:py-32 overflow-hidden bg-surface">
       <Container>
         <SectionHeader
           id="sectors-heading"

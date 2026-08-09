@@ -28,14 +28,14 @@ export default async function AboutPage() {
     <>
       <JsonLd data={aboutPageJsonLd()} />
       <PageHero
-        eyebrow="About Brollam"
+        eyebrow="About Brollam Partners"
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "About" }]}
         title={
           <>
-            An Integrated Team For The <em className="text-accent italic">Age Of Attention.</em>
+            A Visibility Platform For <em className="text-accent italic">African Founders.</em>
           </>
         }
-        description="Brollam Partners is an integrated team of specialists working across brand strategy, communications, marketing, sales, clean energy, technology, and digital product development, headquartered in Nairobi, Kenya."
+        description="Brollam Partners is a brand, communications, marketing, sales, technology and clean-energy platform that gives ambitious African founders the positioning, story and reach to attract funding and reach the right audience — headquartered in Nairobi."
       />
 
       {/* The problem we exist for */}
@@ -54,18 +54,19 @@ export default async function AboutPage() {
             <Reveal delay={0.1}>
               <div className="space-y-5 text-base leading-relaxed text-muted-foreground sm:text-lg">
                 <p>
-                  Most businesses do not necessarily have a product problem. Many have a visibility
-                  problem. Great work can go unnoticed.
+                  Africa is home to some of the world&apos;s most promising founders — building in
+                  climate, mobility, health and technology. Most of that work never reaches the
+                  people who could fund it, back it or buy it.
                 </p>
                 <p>
-                  Customers, investors, partners, and media gravitate toward businesses they can
-                  see, understand, and trust. When the story is unclear or inconsistent, even
-                  excellent companies get overlooked.
+                  Less than one percent of global venture capital reaches Africa each year. The
+                  barrier is rarely the product. It is almost always visibility — the positioning,
+                  story and reach needed to get in front of the right people.
                 </p>
                 <p className="text-foreground">
-                  Brollam brings strategy, storytelling, technology, marketing, sales,
-                  communications, and engineering together instead of treating each as an isolated
-                  discipline. One team, one plan, one standard.
+                  Brollam exists to close that gap. Brand design, strategic communications, B2B
+                  sales and clean-energy engineering under one roof — one accountable group, not a
+                  referral network.
                 </p>
               </div>
             </Reveal>
@@ -78,20 +79,20 @@ export default async function AboutPage() {
         <Container>
           <SectionHeader
             id="model"
-            eyebrow="The Model"
+            eyebrow="The Platform"
             title={
               <>
-                Disciplines That Work As <em className="text-accent italic">One System.</em>
+                Four Disciplines. <em className="text-accent italic">One Integrated Team.</em>
               </>
             }
-            description="Visibility compounds when every discipline reinforces the others. Our four practice groups plan together and execute together."
+            description="Each practice is led by a specialist with a decade or more of field experience. They plan together and execute together — so nothing falls between the gaps."
             className="mb-14"
           />
           <div className="grid gap-px overflow-hidden rounded-md border border-border bg-border sm:grid-cols-2">
             {teamGroups.map((group, index) => (
               <Reveal key={group.name} delay={index * 0.06} className="bg-card">
                 <div className="flex h-full flex-col p-8 sm:p-10">
-                  <p className="font-display text-4xl text-foreground/15">
+                  <p className="font-mono text-2xl text-foreground/20">
                     {String(index + 1).padStart(2, "0")}
                   </p>
                   <h3 className="mt-6 font-display text-2xl text-foreground">{group.name}</h3>
@@ -106,7 +107,7 @@ export default async function AboutPage() {
           {services.length > 0 && (
             <Reveal delay={0.15}>
               <div className="mt-14">
-                <p className="text-[0.68rem] font-semibold tracking-[0.28em] text-muted-foreground uppercase">
+                <p className="font-mono text-[0.65rem] tracking-[0.22em] text-muted-foreground uppercase">
                   Capabilities
                 </p>
                 <ul className="mt-6 grid gap-x-8 gap-y-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -145,7 +146,7 @@ export default async function AboutPage() {
         <Container className="relative py-24 sm:py-28">
           <div className="max-w-2xl">
             <Reveal>
-              <p className="inline-flex items-center gap-2 text-[0.68rem] font-semibold tracking-[0.32em] text-accent uppercase">
+              <p className="inline-flex items-center gap-2 font-mono text-[0.65rem] tracking-[0.22em] text-accent uppercase">
                 <MapPin className="h-3.5 w-3.5" aria-hidden="true" />
                 Nairobi, Kenya
               </p>

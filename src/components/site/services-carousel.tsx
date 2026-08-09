@@ -85,8 +85,9 @@ export function ServicesCarousel() {
             title="Everything it takes to be seen — and backed."
           />
           <Reveal delay={0.2}>
-            <div className="hidden md:flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-              <span>Drag to explore</span>
+            <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+              <span className="hidden md:inline">Drag to explore</span>
+              <span className="md:hidden">Swipe to explore</span>
               <ArrowRight className="h-4 w-4" />
             </div>
           </Reveal>
@@ -109,37 +110,34 @@ export function ServicesCarousel() {
               className="relative aspect-[3/4] w-[280px] shrink-0 snap-start overflow-hidden rounded-xl bg-surface sm:w-[360px] md:w-[420px]"
             >
               <div className="absolute inset-0 pointer-events-none">
-                <div className="absolute inset-0 bg-surface" />
-                {/* Fallback pattern if no image */}
-                <div className="absolute inset-0 bg-texture-dots opacity-30" />
-                
-                {/* 
-                  Since we don't have real images yet, we'll gracefully fall back.
-                  If you have actual photos, they will render here.
-                */}
+                <div className="absolute inset-0 bg-[#0f1a16]" />
+                <div className="absolute inset-0 bg-texture-dots opacity-10" />
                 <Image
                   src={service.image}
                   alt={service.title}
                   fill
                   className="object-cover opacity-80"
-                  onError={(e) => {
-                    // Hide broken image placeholder quietly
-                    e.currentTarget.style.display = 'none';
-                  }}
+                  onError={(e) => { e.currentTarget.style.display = 'none'; }}
                 />
-                
-                <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-background/95 via-background/30 to-transparent" />
+              </div>
+
+              {/* Watermark number — visible as a design anchor when no photo loads */}
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none" aria-hidden="true">
+                <span className="font-mono text-[8rem] font-bold leading-none text-white/[0.04]">
+                  {service.num}
+                </span>
               </div>
 
               <div className="relative flex h-full flex-col justify-between p-6 sm:p-8 pointer-events-none">
                 <div className="flex items-center justify-between">
-                  <span className="flex h-8 w-8 items-center justify-center rounded-full bg-accent text-xs font-bold text-accent-foreground">
+                  <span className="flex h-8 w-8 items-center justify-center rounded-full bg-accent font-mono text-xs text-accent-foreground">
                     {service.num}
                   </span>
                 </div>
                 <div>
                   <h3 className="font-display text-xl text-foreground sm:text-2xl">{service.title}</h3>
-                  <p className="mt-3 text-sm text-foreground/80">{service.description}</p>
+                  <p className="mt-3 font-mono text-[0.68rem] tracking-[0.12em] text-foreground/60 uppercase">{service.description}</p>
                 </div>
               </div>
             </Reveal>

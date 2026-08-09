@@ -1,19 +1,26 @@
 import { Container } from "./container";
 import { Reveal, RevealGroup, RevealItem } from "./reveal";
 import { SectionHeader } from "./section-header";
+import { StatValue } from "./counter";
 
 const stats = [
   {
-    value: "<1%",
+    value: "<1",
+    suffix: "%",
     label: "Share of global venture capital that reaches Africa each year",
+    static: true,
   },
   {
-    value: "83%",
+    value: "83",
+    suffix: "%",
     label: "Of early-2025 startup funding went to founders in just four countries",
+    static: false,
   },
   {
-    value: "45%",
+    value: "45",
+    suffix: "%",
     label: "Of Africa's VC now comes from local & regional investors",
+    static: false,
   },
 ];
 
@@ -42,8 +49,14 @@ export function VisibilityGap() {
           {stats.map((stat, i) => (
             <RevealItem key={i}>
               <div className="flex h-full flex-col justify-between rounded-md border border-border bg-card p-8">
-                <span className="font-display text-4xl text-foreground sm:text-5xl">{stat.value}</span>
-                <span className="mt-6 text-sm leading-relaxed text-muted-foreground">{stat.label}</span>
+                <span className="font-display text-4xl text-foreground sm:text-5xl">
+                  {stat.static ? (
+                    <>{stat.value}<span className="text-accent">{stat.suffix}</span></>
+                  ) : (
+                    <StatValue value={stat.value} suffix={stat.suffix} />
+                  )}
+                </span>
+                <span className="mt-6 font-mono text-[0.68rem] leading-relaxed tracking-[0.14em] text-muted-foreground uppercase">{stat.label}</span>
               </div>
             </RevealItem>
           ))}

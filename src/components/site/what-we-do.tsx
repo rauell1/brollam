@@ -66,7 +66,7 @@ function TiltCard({ num, title, description }: { num: string; title: string; des
       className="relative flex h-full flex-col justify-between rounded-xl border border-border bg-card p-8 transition-colors hover:border-accent/50"
     >
       <div style={{ transform: "translateZ(30px)" }}>
-        <span className="font-display text-4xl text-accent/50">{num}</span>
+        <span className="font-mono text-3xl text-accent/50">{num}</span>
         <h3 className="mt-4 font-display text-2xl text-foreground">{title}</h3>
       </div>
       <p style={{ transform: "translateZ(20px)" }} className="mt-6 text-sm leading-relaxed text-muted-foreground">

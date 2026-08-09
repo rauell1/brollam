@@ -21,7 +21,7 @@ export function CtaSection() {
 
       <Container className="relative py-28 text-center sm:py-40">
         <Reveal>
-          <p className="text-[0.68rem] font-semibold tracking-[0.32em] text-accent uppercase">
+          <p className="font-mono text-[0.65rem] tracking-[0.28em] text-accent uppercase">
             Ready When You Are
           </p>
         </Reveal>
@@ -30,14 +30,14 @@ export function CtaSection() {
             id="final-cta"
             className="mx-auto mt-6 max-w-4xl font-display text-[2.4rem] leading-[1.08] text-balance text-foreground sm:text-6xl lg:text-[4.2rem]"
           >
-            Let&apos;s Build Something <br className="hidden sm:block" />
-            <em className="text-accent italic">Worth Talking About.</em>
+            Your Work Deserves <br className="hidden sm:block" />
+            <em className="text-accent italic">To Be Seen.</em>
           </h2>
         </Reveal>
         <Reveal delay={0.22}>
           <p className="mx-auto mt-7 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-            Brand strategy, communications, marketing, sales, clean energy, and technology: one
-            integrated team brought together for the scope of your project.
+            Positioning, story, reach and commercial execution — one integrated team brought
+            together around your visibility gap.
           </p>
         </Reveal>
         <Reveal delay={0.32}>
@@ -46,14 +46,14 @@ export function CtaSection() {
               href="/contact"
               className="group inline-flex h-12 items-center justify-center gap-2 rounded-sm bg-accent px-8 text-sm font-semibold text-accent-foreground transition-colors hover:bg-accent-strong"
             >
-              Start Your Project
+              Start a Conversation
               <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </Link>
             <Link
-              href="/about"
+              href="/#what-we-do"
               className="group inline-flex h-12 items-center justify-center gap-2 rounded-sm border border-border-strong px-8 text-sm font-semibold text-foreground transition-colors hover:border-accent hover:text-accent"
             >
-              Talk To Our Team
+              See What We Do
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
             </Link>
           </div>

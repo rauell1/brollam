@@ -1,6 +1,7 @@
 import { Container } from "./container";
 import { Reveal, RevealGroup, RevealItem } from "./reveal";
 import { SectionHeader } from "./section-header";
+import { TeamTiltCard } from "./team-tilt-card";
 
 const partners = [
   {
@@ -35,20 +36,10 @@ export function TeamSection() {
           title="The people behind the work."
         />
 
-        <RevealGroup className="mt-16 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-4" stagger={0.1}>
+        <RevealGroup className="mt-16 grid gap-x-8 gap-y-12 perspective-[1000px] sm:grid-cols-2 lg:grid-cols-4" stagger={0.1}>
           {partners.map((partner) => (
             <RevealItem key={partner.name}>
-              <div className="flex flex-col h-full group">
-                <div className="flex-1">
-                  <h3 className="font-display text-xl text-foreground">{partner.name}</h3>
-                  <p className="mt-2 text-[0.7rem] font-semibold tracking-[0.2em] text-accent uppercase">
-                    {partner.role}
-                  </p>
-                  <p className="mt-4 text-sm leading-relaxed text-muted-foreground group-hover:text-foreground transition-colors">
-                    {partner.bio}
-                  </p>
-                </div>
-              </div>
+              <TeamTiltCard name={partner.name} role={partner.role} bio={partner.bio} />
             </RevealItem>
           ))}
         </RevealGroup>

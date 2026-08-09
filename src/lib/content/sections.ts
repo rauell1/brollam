@@ -8,31 +8,31 @@ export const processStages = [
     number: "01",
     name: "Discover",
     description:
-      "Business audit and research into where the visibility gap actually is.",
+      "Business, audience and investor audit — understanding where you stand and who needs to see you.",
   },
   {
     number: "02",
-    name: "Strategy",
+    name: "Position",
     description:
-      "Brand positioning, communications planning, commercial strategy, and campaign planning.",
+      "Narrative, brand and messaging built around what makes you fundable and worth backing.",
   },
   {
     number: "03",
-    name: "Create",
+    name: "Build",
     description:
-      "Branding, websites, content, digital products, creative assets, and campaigns built by the team.",
+      "Websites, content, campaign assets and pitch materials, produced in-house by the team.",
   },
   {
     number: "04",
     name: "Launch",
     description:
-      "PR, media buying, digital campaigns, partnerships, events, technical deployments, and on the ground execution where relevant.",
+      "PR, media outreach, digital campaigns and investor-facing communications that put you in the room.",
   },
   {
     number: "05",
-    name: "Optimise",
+    name: "Sustain",
     description:
-      "Analytics, reporting, learning, and growth recommendations that compound.",
+      "Reporting and growth recommendations that keep momentum compounding after the first push.",
   },
 ] as const;
 
@@ -63,14 +63,26 @@ export const ecosystemChannels = [
 ] as const;
 
 export const teamGroups = [
-  { name: "Design & Technology", note: "Product design, engineering, and digital platforms" },
-  { name: "Communications & Brand Strategy", note: "Positioning, media relations, and storytelling" },
-  { name: "Sales & Partnerships", note: "Pipeline, key accounts, and go to market execution" },
-  { name: "Clean Energy & Engineering", note: "Feasibility, deployment, and technical advisory" },
+  {
+    name: "Design & Creative Systems",
+    note: "Brand identity, motion design, UI/UX and editorial design — the visual language investors and customers see first.",
+  },
+  {
+    name: "Communications, PR & Brand Strategy",
+    note: "Media strategy, storytelling, integrated campaigns and digital growth — turning credibility into coverage.",
+  },
+  {
+    name: "B2B Sales & Market Expansion",
+    note: "Enterprise sales, strategic partnerships and key accounts — converting visibility into signed deals.",
+  },
+  {
+    name: "Clean Energy & E-Mobility",
+    note: "Solar PV, battery storage, EV-charging infrastructure and feasibility — the technical authority behind the clean-energy story.",
+  },
 ] as const;
 
 export const trackRecordNote =
   "Figures reflect verified results from individual team members' prior and current roles.";
 
 export const teamClosingStatement =
-  "Our strength comes from combining communications, marketing, sales, business strategy, engineering, and software development into one integrated team focused on helping businesses grow.";
+  "Together, this platform combines brand design, strategic communications, B2B sales and clean-energy engineering — one accountable group, not a referral network.";

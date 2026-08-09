@@ -32,7 +32,7 @@ const processStages = [
 
 export function ProcessTimeline() {
   return (
-    <section aria-labelledby="how-we-work" className="py-24 sm:py-32">
+    <section aria-labelledby="how-we-work" className="py-24 sm:py-32 bg-surface">
       <Container>
         <SectionHeader
           id="how-we-work"
@@ -57,7 +57,7 @@ export function ProcessTimeline() {
                   >
                     <span className="block h-full w-full rounded-full bg-accent" />
                   </span>
-                  <p className="mt-8 font-display text-4xl text-foreground/20">{stage.number}</p>
+                  <p className="mt-8 font-mono text-2xl text-foreground/25">{stage.number}</p>
                   <h3 className="mt-3 font-display text-2xl text-foreground">{stage.name}</h3>
                   <p className="mt-3 text-[0.85rem] leading-relaxed text-muted-foreground">
                     {stage.description}
@@ -81,7 +81,7 @@ export function ProcessTimeline() {
                     <span className="h-[5px] w-[5px] rounded-full bg-accent" />
                   </span>
                   <div className="flex items-baseline gap-4">
-                    <span className="font-display text-2xl text-foreground/25">{stage.number}</span>
+                    <span className="font-mono text-lg text-foreground/25">{stage.number}</span>
                     <h3 className="font-display text-[1.6rem] text-foreground">{stage.name}</h3>
                   </div>
                   <p className="mt-3 max-w-md text-[0.92rem] leading-relaxed text-muted-foreground">

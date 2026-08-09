@@ -14,7 +14,7 @@ const tags = [
 
 export function CareersTeaser() {
   return (
-    <section id="careers" aria-labelledby="careers-heading" className="border-t border-border py-24 sm:py-32">
+    <section id="careers" aria-labelledby="careers-heading" className="py-24 sm:py-32 bg-surface">
       <Container>
         <div className="grid gap-14 lg:grid-cols-2 lg:gap-20">
           <div>

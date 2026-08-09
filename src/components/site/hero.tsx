@@ -34,7 +34,7 @@ export function Hero() {
 
       <Container className="relative z-10 pt-32 pb-24 sm:pb-28">
         <Reveal delay={0.05}>
-          <p className="flex items-center gap-3 text-[0.68rem] font-semibold tracking-[0.32em] text-accent uppercase">
+          <p className="flex items-center gap-3 font-mono text-[0.68rem] tracking-[0.22em] text-accent uppercase">
             <span className="inline-block h-px w-8 bg-accent" aria-hidden="true" />
             For Startups Building Africa's Future
           </p>
@@ -72,15 +72,15 @@ export function Hero() {
           <div className="mt-16 flex flex-wrap items-center gap-x-12 gap-y-6 pt-10 border-t border-border-strong/50">
             <div className="flex flex-col gap-1">
               <span className="text-xl font-display font-medium text-foreground">&lt;1%</span>
-              <span className="text-xs font-semibold tracking-wider text-muted-foreground uppercase">Share of global VC that reaches Africa</span>
+              <span className="font-mono text-[0.6rem] tracking-[0.18em] text-muted-foreground uppercase">Share of global VC that reaches Africa</span>
             </div>
             <div className="flex flex-col gap-1">
               <span className="text-xl font-display font-medium text-foreground">Disciplines under one team</span>
-              <span className="text-xs font-semibold tracking-wider text-muted-foreground uppercase">Brand, PR, Sales, Tech & Energy</span>
+              <span className="font-mono text-[0.6rem] tracking-[0.18em] text-muted-foreground uppercase">Brand, PR, Sales, Tech & Energy</span>
             </div>
             <div className="flex flex-col gap-1">
               <span className="text-xl font-display font-medium text-foreground">Nairobi</span>
-              <span className="text-xs font-semibold tracking-wider text-muted-foreground uppercase">Based here, working continent-wide</span>
+              <span className="font-mono text-[0.6rem] tracking-[0.18em] text-muted-foreground uppercase">Based here, working continent-wide</span>
             </div>
           </div>
         </Reveal>

@@ -33,7 +33,7 @@ const brands = [
 
 export function LogoWall() {
   return (
-    <section id="companies" aria-labelledby="companies-heading" className="overflow-hidden border-t border-border py-24 sm:py-32">
+    <section id="companies" aria-labelledby="companies-heading" className="overflow-hidden bg-surface py-24 sm:py-32">
       <Container>
         <SectionHeader
           id="companies-heading"

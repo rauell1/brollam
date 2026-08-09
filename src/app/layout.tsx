@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
+import { Space_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import { site } from "@/lib/config";
 import { GoogleAnalytics } from "@next/third-parties/google";
@@ -23,6 +24,13 @@ const instrument = localFont({
     { path: "./fonts/instrument-italic.woff2", weight: "400", style: "italic" },
   ],
   variable: "--font-instrument",
+  display: "swap",
+});
+
+const spaceMono = Space_Mono({
+  weight: ["400", "700"],
+  subsets: ["latin"],
+  variable: "--font-space-mono",
   display: "swap",
 });
 
@@ -92,7 +100,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${manrope.variable} ${instrument.variable} h-full antialiased`}
+      className={`${manrope.variable} ${instrument.variable} ${spaceMono.variable} h-full antialiased`}
     >
       <head>
         <Script

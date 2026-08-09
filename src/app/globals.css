@@ -38,6 +38,7 @@
 
   --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-instrument), "Georgia", serif;
+  --font-mono: var(--font-space-mono), ui-monospace, "Courier New", monospace;
 }
 
 /* The root .dark class is the user-selected theme. */
@@ -111,6 +112,7 @@
 
   --font-sans: var(--font-sans);
   --font-display: var(--font-display);
+  --font-mono: var(--font-mono);
 
   --radius-xs: var(--radius-xs);
   --radius-sm: var(--radius-sm);

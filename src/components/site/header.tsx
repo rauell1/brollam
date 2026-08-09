@@ -70,7 +70,7 @@ export function Header() {
             href="/contact"
             className="group hidden h-10 items-center gap-1.5 rounded-sm border border-accent/50 px-5 text-[0.72rem] font-semibold tracking-[0.18em] text-accent uppercase transition-all hover:border-accent hover:bg-accent/10 sm:inline-flex"
           >
-            Start a Project
+            Start a Conversation
             <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
           </Link>
           <button

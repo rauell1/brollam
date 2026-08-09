@@ -8,7 +8,31 @@ import { SectionHeader } from "./section-header";
 import { StatValue } from "./counter";
 
 export function FeaturedCaseStudy({ caseStudy }: { caseStudy: CaseStudyDto | null }) {
-  if (!caseStudy) return null;
+  if (!caseStudy) {
+    return (
+      <section aria-labelledby="featured-case-study" className="py-24 sm:py-32">
+        <Container>
+          <SectionHeader
+            id="featured-case-study"
+            eyebrow="Featured Case Study"
+            title={
+              <>
+                Visibility That Creates <em className="text-accent italic">Results.</em>
+              </>
+            }
+            className="mb-14"
+          />
+          <Reveal delay={0.1}>
+            <div className="flex min-h-[320px] items-center justify-center rounded-xl border border-border bg-surface">
+              <p className="text-[0.65rem] font-semibold tracking-[0.28em] text-muted-foreground/50 uppercase">
+                Flagship case study coming soon
+              </p>
+            </div>
+          </Reveal>
+        </Container>
+      </section>
+    );
+  }
 
   const metrics = caseStudy.metrics.slice(0, 3);
 
