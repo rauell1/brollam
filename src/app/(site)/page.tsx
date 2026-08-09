@@ -69,7 +69,7 @@ export default async function HomePage() {
       {/* 9. Companies We've Worked With */}
       <LogoWall />
 
-      {/* 9b. Client testimonials — renders only once real quotes are published */}
+      {/* 9b. Client testimonials: renders only once real quotes are published */}
       <Testimonials testimonials={testimonials} />
       
       {/* 10. Insights */}

@@ -76,7 +76,7 @@ export function ServicesCarousel() {
     e.preventDefault();
     const x = e.pageX - carouselRef.current.offsetLeft;
     const walk = (x - startX) * 2;
-    // Past a few pixels this is a drag, not a click — remember so the
+    // Past a few pixels this is a drag, not a click. Remember that so the
     // pointer-up doesn't navigate the card the cursor happens to be over.
     if (Math.abs(walk) > 6) draggedRef.current = true;
     carouselRef.current.scrollLeft = scrollLeft - walk;
@@ -93,7 +93,7 @@ export function ServicesCarousel() {
           <SectionHeader
             id="services-heading"
             eyebrow="Our Services"
-            title="Everything it takes to be seen — and backed."
+            title="Everything it takes to be seen, and backed."
           />
           <Reveal delay={0.2}>
             <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">

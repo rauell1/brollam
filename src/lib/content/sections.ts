@@ -8,7 +8,7 @@ export const processStages = [
     number: "01",
     name: "Discover",
     description:
-      "Business, audience and investor audit — understanding where you stand and who needs to see you.",
+      "Business, audience and investor audit: understanding where you stand and who needs to see you.",
   },
   {
     number: "02",
@@ -65,19 +65,19 @@ export const ecosystemChannels = [
 export const teamGroups = [
   {
     name: "Design & Creative Systems",
-    note: "Brand identity, motion design, UI/UX and editorial design — the visual language investors and customers see first.",
+    note: "Brand identity, motion design, UI/UX and editorial design: the visual language investors and customers see first.",
   },
   {
     name: "Communications, PR & Brand Strategy",
-    note: "Media strategy, storytelling, integrated campaigns and digital growth — turning credibility into coverage.",
+    note: "Media strategy, storytelling, integrated campaigns and digital growth: turning credibility into coverage.",
   },
   {
     name: "B2B Sales & Market Expansion",
-    note: "Enterprise sales, strategic partnerships and key accounts — converting visibility into signed deals.",
+    note: "Enterprise sales, strategic partnerships and key accounts: converting visibility into signed deals.",
   },
   {
     name: "Clean Energy & E-Mobility",
-    note: "Solar PV, battery storage, EV-charging infrastructure and feasibility — the technical authority behind the clean-energy story.",
+    note: "Solar PV, battery storage, EV-charging infrastructure and feasibility: the technical authority behind the clean-energy story.",
   },
 ] as const;
 
@@ -85,4 +85,4 @@ export const trackRecordNote =
   "Figures reflect verified results from individual team members' prior and current roles.";
 
 export const teamClosingStatement =
-  "Together, this platform combines brand design, strategic communications, B2B sales and clean-energy engineering — one accountable group, not a referral network.";
+  "Together, this platform combines brand design, strategic communications, B2B sales and clean-energy engineering: one accountable group, not a referral network.";

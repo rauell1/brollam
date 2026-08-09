@@ -9,7 +9,7 @@ import type { ServiceDto } from "@/lib/data/public";
  * Full services listing.
  *
  * The /services route already loaded every service and its capabilities from
- * the CMS, then rendered only the homepage carousel — so six descriptions and
+ * the CMS, then rendered only the homepage carousel, so six descriptions and
  * fifty-odd capabilities existed in the database but appeared nowhere on the
  * site, and the /services/[slug] detail pages were reachable only from the
  * footer. This is that missing index.
@@ -73,7 +73,7 @@ export function ServicesIndex({ services }: { services: ServiceDto[] }) {
         <Reveal delay={0.2}>
           <p className="mt-12 max-w-xl text-sm leading-relaxed text-muted-foreground">
             Not sure which of these you need? That is usually the first thing we work out
-            together —{" "}
+            together:{" "}
             <Link href="/contact" className="text-accent-strong underline underline-offset-4">
               start a conversation
             </Link>

@@ -17,7 +17,7 @@ const INTERVAL = 7000;
  * The testimonials collection has existed in the CMS (and the admin CRUD)
  * since launch but nothing on the public site ever read it. This is that
  * missing surface. It renders nothing until real, published testimonials
- * exist — placeholder quotes attributed to real companies are not an option.
+ * exist. Placeholder quotes attributed to real companies are not an option.
  */
 export function Testimonials({ testimonials }: { testimonials: TestimonialDto[] }) {
   const [index, setIndex] = useState(0);

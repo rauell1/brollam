@@ -47,7 +47,7 @@ export function VisibilityGap() {
           <Reveal delay={0.15}>
             <p className="mt-8 text-base leading-relaxed text-muted-foreground sm:text-lg">
               Africa is home to some of the world&apos;s most promising founders
-              — building in climate, mobility, health and technology. Most of
+              building in climate, mobility, health and technology. Most of
               that work never reaches the people who could fund it, back it or
               buy it.
             </p>

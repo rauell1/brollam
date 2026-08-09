@@ -11,7 +11,7 @@ const EASE = [0.22, 1, 0.36, 1] as const;
  * Word-by-word mask reveal. Each word sits in an overflow-hidden clip and
  * rises into place, which reads as typesetting rather than a generic fade.
  *
- * The text appears in the DOM exactly once — no aria-hidden duplicate beside
+ * The text appears in the DOM exactly once, with no aria-hidden duplicate beside
  * an sr-only copy. That mirrored approach is common but it doubles the string
  * for copy-paste, find-in-page and crawlers. Here the spaces between words are
  * real text nodes sitting outside the inline-block clips, so selection and

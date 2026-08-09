@@ -9,7 +9,7 @@ import { KineticText } from "./kinetic-text";
  * Closing statement of the homepage.
  *
  * The background used to point at /media/dev/commitment-bg.jpg, which never
- * shipped — so this was a 404 over a flat gradient. It's now a drifting
+ * shipped, so this was a 404 over a flat gradient. It's now a drifting
  * colour field built from layered radial gradients: nothing to download,
  * and it parallaxes against the scroll rather than sitting still.
  */
@@ -32,7 +32,7 @@ export function CommitmentParallax() {
     >
       <div className="absolute inset-0 bg-[#07100e]" />
 
-      {/* Drifting aurora — two counter-moving colour blooms */}
+      {/* Drifting aurora: two counter-moving colour blooms */}
       <m.div className="absolute inset-0" style={{ y, opacity: glowOpacity }}>
         <div className="absolute inset-0 bg-[radial-gradient(70%_60%_at_22%_28%,rgba(201,154,61,0.30),transparent_62%)] animate-[aurora-drift_26s_ease-in-out_infinite] motion-reduce:animate-none" />
         <div

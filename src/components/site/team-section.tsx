@@ -12,7 +12,7 @@ import { listActiveTeam } from "@/lib/data/public";
  * in the team_members table, which is what article bylines render from. The
  * two drifted: the section showed the V2 roles while bylines still showed
  * pre-V2 ones, so a clean-energy piece carried an "Engineering & Technology"
- * credit. Reading from one source removes that failure mode — update a role
+ * credit. Reading from one source removes that failure mode: update a role
  * in the admin and the section and every byline move together.
  */
 export async function TeamSection() {

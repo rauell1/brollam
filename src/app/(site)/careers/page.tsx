@@ -64,7 +64,7 @@ export default async function CareersPage() {
                 title="No open roles right now"
                 description={
                   site.email
-                    ? `No active openings right now — we hire for specific engagements, not a standing roster. If you work across brand, PR, sales or clean energy and want to be on our radar, introduce yourself at ${site.email}.`
+                    ? `No active openings right now. We hire for specific engagements, not a standing roster. If you work across brand, PR, sales or clean energy and want to be on our radar, introduce yourself at ${site.email}.`
                     : "No active openings right now. We hire for specific engagements, so check back or reach out directly."
                 }
                 action={{ label: "Join Our Talent Network", href: `/contact?type=talent` }}

@@ -36,7 +36,7 @@ export function CtaSection() {
         </Reveal>
         <Reveal delay={0.22}>
           <p className="mx-auto mt-7 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-            Positioning, story, reach and commercial execution — one integrated team brought
+            Positioning, story, reach and commercial execution: one integrated team brought
             together around your visibility gap.
           </p>
         </Reveal>

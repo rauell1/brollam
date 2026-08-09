@@ -35,7 +35,7 @@ export default async function AboutPage() {
             A Visibility Platform For <em className="text-accent italic">African Founders.</em>
           </>
         }
-        description="Brollam Partners is a brand, communications, marketing, sales, technology and clean-energy platform that gives ambitious African founders the positioning, story and reach to attract funding and reach the right audience — headquartered in Nairobi."
+        description="Brollam Partners is a brand, communications, marketing, sales, technology and clean-energy platform that gives ambitious African founders the positioning, story and reach to attract funding and reach the right audience, headquartered in Nairobi."
       />
 
       {/* The problem we exist for */}
@@ -54,18 +54,18 @@ export default async function AboutPage() {
             <Reveal delay={0.1}>
               <div className="space-y-5 text-base leading-relaxed text-muted-foreground sm:text-lg">
                 <p>
-                  Africa is home to some of the world&apos;s most promising founders — building in
+                  Africa is home to some of the world&apos;s most promising founders building in
                   climate, mobility, health and technology. Most of that work never reaches the
                   people who could fund it, back it or buy it.
                 </p>
                 <p>
                   Less than one percent of global venture capital reaches Africa each year. The
-                  barrier is rarely the product. It is almost always visibility — the positioning,
+                  barrier is rarely the product. It is almost always visibility: the positioning,
                   story and reach needed to get in front of the right people.
                 </p>
                 <p className="text-foreground">
                   Brollam exists to close that gap. Brand design, strategic communications, B2B
-                  sales and clean-energy engineering under one roof — one accountable group, not a
+                  sales and clean-energy engineering under one roof: one accountable group, not a
                   referral network.
                 </p>
               </div>
@@ -85,7 +85,7 @@ export default async function AboutPage() {
                 Four Disciplines. <em className="text-accent italic">One Integrated Team.</em>
               </>
             }
-            description="Each practice is led by a specialist with a decade or more of field experience. They plan together and execute together — so nothing falls between the gaps."
+            description="Each practice is led by a specialist with a decade or more of field experience. They plan together and execute together, so nothing falls between the gaps."
             className="mb-14"
           />
           <div className="grid gap-px overflow-hidden rounded-md border border-border bg-border sm:grid-cols-2">

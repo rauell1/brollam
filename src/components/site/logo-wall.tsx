@@ -17,7 +17,7 @@ const press = [
 const brands = [
   "Roam Electric",
   "Jetour Kenya",
-  "AVA — Associated Vehicle Assemblers",
+  "AVA (Associated Vehicle Assemblers)",
   "Google",
   "Meta",
   "Uber",

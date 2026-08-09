@@ -290,7 +290,7 @@ export const seedTeamMembers: TeamSeed[] = [
     slug: "josef-mafumbo",
     role: "Design & Creative Systems",
     biography:
-      "Brand identity, motion design and brand films, UI/UX, 3D renders and editorial design — the visual language investors and customers see first. 9+ years and 120+ projects shipped.",
+      "Brand identity, motion design and brand films, UI/UX, 3D renders and editorial design: the visual language investors and customers see first. 9+ years and 120+ projects shipped.",
     expertise: ["Brand Identity", "Motion Design", "UI/UX", "3D & Renders", "Editorial Design"],
     image: null,
     linkedinUrl: null,
@@ -304,7 +304,7 @@ export const seedTeamMembers: TeamSeed[] = [
     slug: "adala-allan",
     role: "Communications, PR & Brand Strategy",
     biography:
-      "Media strategy, storytelling, integrated campaigns, digital growth and founder profiling — turning credibility into coverage. 7+ years; 8,500km+ of expedition PR coverage; work placed with BBC, CNN, National Geographic, Bloomberg and The Economist.",
+      "Media strategy, storytelling, integrated campaigns, digital growth and founder profiling: turning credibility into coverage. 7+ years; 8,500km+ of expedition PR coverage; work placed with BBC, CNN, National Geographic, Bloomberg and The Economist.",
     expertise: [
       "Media Strategy",
       "Public Relations",
@@ -324,7 +324,7 @@ export const seedTeamMembers: TeamSeed[] = [
     slug: "brian-m-burudi",
     role: "B2B Sales & Market Expansion",
     biography:
-      "Enterprise sales, market expansion, strategic partnerships, key accounts and agent networks — converting visibility into signed deals. 5+ years; grew an SME agent network from 18 to 100.",
+      "Enterprise sales, market expansion, strategic partnerships, key accounts and agent networks: converting visibility into signed deals. 5+ years; grew an SME agent network from 18 to 100.",
     expertise: [
       "Enterprise Sales",
       "Market Expansion",
@@ -344,7 +344,7 @@ export const seedTeamMembers: TeamSeed[] = [
     slug: "roy-okola-otieno",
     role: "Clean Energy & E-Mobility Systems",
     biography:
-      "Solar PV, battery storage, EV-charging infrastructure, feasibility studies and data & GIS tooling — the technical authority behind the clean-energy story. 25+ active sites monitored; KES 3M+ deployed; KES 50M+ pipeline supported.",
+      "Solar PV, battery storage, EV-charging infrastructure, feasibility studies and data & GIS tooling: the technical authority behind the clean-energy story. 25+ active sites monitored; KES 3M+ deployed; KES 50M+ pipeline supported.",
     expertise: [
       "Solar PV",
       "Battery Storage",
