@@ -17,20 +17,23 @@ This Privacy Policy explains what information Brollam Partners ("Brollam", "we",
 
 When you submit the contact form, we collect the details you choose to give us: your name, company, email address, phone number, project type, budget range, timeline, and the contents of your message.
 
-We also collect standard technical information that keeps the site secure and reliable, such as your IP address, used strictly for security purposes including spam and abuse prevention.
+We also collect standard technical information that keeps the site secure and reliable, such as your IP address, used for security purposes including spam and abuse prevention.
+
+With your consent, we use Google Analytics 4 (GA4) to collect anonymous usage data (such as pages visited, device and browser information) to help us understand how our website is used and to improve our services.
 
 ## How we use your information
 
 - To respond to your enquiry and manage our conversation with you
 - To prepare proposals and deliver services you ask for
 - To protect the website against spam, fraud, and abuse
+- To analyze website traffic and improve our user experience
 - To meet legal or regulatory obligations where required
 
 We do not sell your personal information. We do not share it with third parties for their own marketing.
 
 ## Legal basis and consent
 
-We process personal information with your consent (when you submit a form) and on the basis of legitimate interest in running and protecting our business. This policy is aligned with the Kenya Data Protection Act, 2019. By using this site you acknowledge the practices described here.
+We process personal information with your consent (when you submit a form, or when you opt-in to analytics cookies) and on the basis of legitimate interest in running and protecting our business. This policy is aligned with the Kenya Data Protection Act, 2019. You can manage your cookie and tracking consent preferences at any time using our Consent Management Platform (Secure Privacy).
 
 ## Data storage and security
 
@@ -46,7 +49,9 @@ You may request access to the personal information we hold about you, ask for it
 
 ## Cookies
 
-This website uses only strictly necessary cookies required for secure operation of the administrative system. It does not use advertising or cross site tracking cookies.
+We use strictly necessary cookies required for the secure and proper operation of our website. With your explicit consent, we also use performance and analytics cookies (via Google Analytics 4) to help us measure and improve our site's performance.
+
+We use Secure Privacy as our Consent Management Platform (CMP). You can review, update, or withdraw your cookie consent preferences at any time using the privacy widget located on our website.
 
 ## Changes to this policy
 

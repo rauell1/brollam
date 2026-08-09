@@ -30,9 +30,9 @@ You agree not to misuse this website, including by:
 - Submitting false, misleading, or unlawful material through our forms
 - Using the site in any way that breaches applicable law
 
-## Enquiries
+## Enquiries and Data Collection
 
-Information you send through our contact form is handled according to our Privacy Policy. Submitting an enquiry does not oblige either party to enter into a contract. Any engagement with Brollam is governed by its own written agreement.
+Information you send through our contact form, as well as data collected via cookies and analytics tools, is handled according to our Privacy Policy. Submitting an enquiry does not oblige either party to enter into a contract. Any engagement with Brollam is governed by its own written agreement.
 
 ## Accuracy of content
 
