@@ -2,8 +2,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { Container } from "./container";
+import dynamic from "next/dynamic";
 import { Reveal } from "./reveal";
-import { HeroVideo } from "./video-hero";
+
+const HeroVideo = dynamic(() => import("./video-hero").then(mod => mod.HeroVideo));
 
 const POSTER = "/media/dev/hero-poster.jpg";
 

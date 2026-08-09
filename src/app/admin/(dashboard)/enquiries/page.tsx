@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { listAllEnquiries } from "@/lib/data/admin";
+import { listAllEnquiries, countAllEnquiries, countNewEnquiries } from "@/lib/data/admin";
 import { AdminPageHeader } from "@/components/admin/page-header";
 import { DataCell, DataRow, DataTable } from "@/components/admin/data-table";
 import { EnquiryStatusBadge } from "@/components/admin/status-badge";
@@ -7,9 +7,21 @@ import { formatDate } from "@/lib/utils";
 
 export const metadata = { title: "Enquiries" };
 
-export default async function AdminEnquiriesPage() {
-  const enquiries = await listAllEnquiries();
-  const newCount = enquiries.filter((e) => e.status === "NEW").length;
+export default async function AdminEnquiriesPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
+  const params = await searchParams;
+  const page = typeof params.page === "string" ? parseInt(params.page, 10) || 1 : 1;
+  const pageSize = 20;
+
+  const [enquiries, totalCount, newCount] = await Promise.all([
+    listAllEnquiries(page, pageSize),
+    countAllEnquiries(),
+    countNewEnquiries(),
+  ]);
+  const totalPages = Math.ceil(totalCount / pageSize);
 
   return (
     <div>
@@ -37,6 +49,11 @@ export default async function AdminEnquiriesPage() {
             { key: "received", label: "Received" },
             { key: "status", label: "Status" },
           ]}
+          pagination={{
+            currentPage: page,
+            totalPages,
+            basePath: "/admin/enquiries",
+          }}
         >
           {enquiries.map((enquiry) => (
             <DataRow key={enquiry.id}>

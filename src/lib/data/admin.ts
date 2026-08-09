@@ -54,11 +54,19 @@ export async function getServiceById(id: string) {
   });
 }
 
-export async function listAllCaseStudies() {
+export async function listAllCaseStudies(page = 1, pageSize = 20) {
+  const offset = (page - 1) * pageSize;
   return requireDb().query.caseStudies.findMany({
     orderBy: [desc(schema.caseStudies.updatedAt)],
     with: { metrics: true },
+    limit: pageSize,
+    offset,
   });
+}
+
+export async function countAllCaseStudies(): Promise<number> {
+  const rows = await requireDb().select({ value: count() }).from(schema.caseStudies);
+  return rows[0]?.value ?? 0;
 }
 
 export async function getCaseStudyById(id: string) {
@@ -68,11 +76,19 @@ export async function getCaseStudyById(id: string) {
   });
 }
 
-export async function listAllInsights() {
+export async function listAllInsights(page = 1, pageSize = 20) {
+  const offset = (page - 1) * pageSize;
   return requireDb().query.insights.findMany({
     orderBy: [desc(schema.insights.updatedAt)],
     with: { author: true },
+    limit: pageSize,
+    offset,
   });
+}
+
+export async function countAllInsights(): Promise<number> {
+  const rows = await requireDb().select({ value: count() }).from(schema.insights);
+  return rows[0]?.value ?? 0;
 }
 
 export async function getInsightById(id: string) {
@@ -154,10 +170,18 @@ export async function getStatisticById(id: string) {
   });
 }
 
-export async function listAllMedia() {
+export async function listAllMedia(page = 1, pageSize = 20) {
+  const offset = (page - 1) * pageSize;
   return requireDb().query.mediaItems.findMany({
     orderBy: [desc(schema.mediaItems.createdAt)],
+    limit: pageSize,
+    offset,
   });
+}
+
+export async function countAllMedia(): Promise<number> {
+  const rows = await requireDb().select({ value: count() }).from(schema.mediaItems);
+  return rows[0]?.value ?? 0;
 }
 
 export async function getMediaItemById(id: string) {
@@ -166,10 +190,18 @@ export async function getMediaItemById(id: string) {
   });
 }
 
-export async function listAllEnquiries() {
+export async function listAllEnquiries(page = 1, pageSize = 20) {
+  const offset = (page - 1) * pageSize;
   return requireDb().query.enquiries.findMany({
     orderBy: [desc(schema.enquiries.createdAt)],
+    limit: pageSize,
+    offset,
   });
+}
+
+export async function countAllEnquiries(): Promise<number> {
+  const rows = await requireDb().select({ value: count() }).from(schema.enquiries);
+  return rows[0]?.value ?? 0;
 }
 
 export async function getEnquiryById(id: string) {

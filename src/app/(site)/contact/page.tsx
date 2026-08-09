@@ -5,7 +5,7 @@ import { ContactForm } from "@/components/site/contact-form";
 import { Reveal } from "@/components/site/reveal";
 import { site } from "@/lib/config";
 import { listServices } from "@/lib/data/public";
-import { JsonLd, breadcrumbJsonLd, pageMetadata } from "@/lib/seo";
+import { JsonLd, breadcrumbJsonLd, pageMetadata, contactPageJsonLd } from "@/lib/seo";
 
 export const revalidate = 300;
 
@@ -50,6 +50,7 @@ export default async function ContactPage() {
           { name: "Contact", path: "/contact" },
         ])}
       />
+      <JsonLd data={contactPageJsonLd()} />
       <PageHero
         eyebrow="Contact"
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "Contact" }]}

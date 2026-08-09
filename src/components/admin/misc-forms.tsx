@@ -14,7 +14,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Field, FormAlerts, FormPanel, SubmitButton, SwitchField } from "./form-fields";
-import { MediaUpload } from "./media-upload";
+import dynamic from "next/dynamic";
+const MediaUpload = dynamic(() => import("./media-upload").then(mod => mod.MediaUpload));
 
 /* ---------------------------------- Career ---------------------------------- */
 

@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { asc, desc, eq, and } from "drizzle-orm";
 import { getDb } from "@/lib/db/client";
 import * as schema from "@/lib/db/schema";
@@ -191,7 +192,7 @@ function snapshotInsights(): InsightDto[] {
 /* Services                                                            */
 /* ------------------------------------------------------------------ */
 
-export async function listServices(): Promise<ServiceDto[]> {
+export const listServices = cache(async function listServices(): Promise<ServiceDto[]> {
   const db = getDb();
   if (!db) return snapshotServices();
   const rows = await db.query.services.findMany({
@@ -200,7 +201,7 @@ export async function listServices(): Promise<ServiceDto[]> {
     with: { capabilities: { orderBy: [asc(schema.serviceCapabilities.position)] } },
   });
   return rows.map(({ createdAt: _c, updatedAt: _u, ...rest }) => rest);
-}
+});
 
 export async function getServiceBySlug(slug: string): Promise<ServiceDto | null> {
   const db = getDb();
@@ -230,7 +231,7 @@ function toCaseStudyDto(
   };
 }
 
-export async function listCaseStudies(): Promise<CaseStudyDto[]> {
+export const listCaseStudies = cache(async function listCaseStudies(): Promise<CaseStudyDto[]> {
   const db = getDb();
   if (!db) return snapshotCaseStudies();
   const rows = await db.query.caseStudies.findMany({
@@ -243,7 +244,7 @@ export async function listCaseStudies(): Promise<CaseStudyDto[]> {
     with: { metrics: true },
   });
   return rows.map(toCaseStudyDto);
-}
+});
 
 export async function getFeaturedCaseStudy(): Promise<CaseStudyDto | null> {
   const db = getDb();
@@ -292,7 +293,7 @@ function toInsightDto(
   };
 }
 
-export async function listInsights(): Promise<InsightDto[]> {
+export const listInsights = cache(async function listInsights(): Promise<InsightDto[]> {
   const db = getDb();
   if (!db) return snapshotInsights();
   const rows = await db.query.insights.findMany({
@@ -301,7 +302,7 @@ export async function listInsights(): Promise<InsightDto[]> {
     with: { author: true },
   });
   return rows.map(toInsightDto);
-}
+});
 
 export async function getInsightBySlug(slug: string): Promise<InsightDto | null> {
   const db = getDb();

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Pencil } from "lucide-react";
-import { listAllMedia } from "@/lib/data/admin";
+import { listAllMedia, countAllMedia } from "@/lib/data/admin";
 import { deleteMediaItem } from "@/lib/actions/admin/site";
 import { AdminPageHeader } from "@/components/admin/page-header";
 import { DataCell, DataRow, DataTable } from "@/components/admin/data-table";
@@ -9,8 +9,20 @@ import { Badge } from "@/components/ui/badge";
 
 export const metadata = { title: "Media Library" };
 
-export default async function AdminMediaPage() {
-  const media = await listAllMedia();
+export default async function AdminMediaPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
+  const params = await searchParams;
+  const page = typeof params.page === "string" ? parseInt(params.page, 10) || 1 : 1;
+  const pageSize = 20;
+
+  const [media, totalCount] = await Promise.all([
+    listAllMedia(page, pageSize),
+    countAllMedia(),
+  ]);
+  const totalPages = Math.ceil(totalCount / pageSize);
 
   return (
     <div>
@@ -33,6 +45,11 @@ export default async function AdminMediaPage() {
             { key: "category", label: "Category" },
             { key: "actions", label: "Actions", className: "text-right" },
           ]}
+          pagination={{
+            currentPage: page,
+            totalPages,
+            basePath: "/admin/media",
+          }}
         >
           {media.map((item) => (
             <DataRow key={item.id}>

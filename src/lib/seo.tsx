@@ -142,3 +142,105 @@ export function JsonLd({ data }: { data: Record<string, unknown> }) {
     />
   );
 }
+
+export function caseStudyJsonLd(caseStudy: {
+  title: string;
+  summary: string;
+  slug: string;
+  image: string | null;
+  publishedAt: Date | null;
+  clientName: string;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: caseStudy.title,
+    description: caseStudy.summary,
+    url: absoluteUrl(`/case-studies/${caseStudy.slug}`),
+    ...(caseStudy.image ? { image: [absoluteUrl(caseStudy.image)] } : {}),
+    ...(caseStudy.publishedAt ? { datePublished: caseStudy.publishedAt.toISOString() } : {}),
+    author: {
+      "@type": "Organization",
+      name: site.name,
+    },
+    publisher: {
+      "@type": "Organization",
+      name: site.name,
+      logo: { "@type": "ImageObject", url: absoluteUrl("/icon.svg") },
+    },
+    mainEntityOfPage: absoluteUrl(`/case-studies/${caseStudy.slug}`),
+    about: {
+      "@type": "Organization",
+      name: caseStudy.clientName,
+    },
+  };
+}
+
+export function jobPostingJsonLd(job: {
+  title: string;
+  description: string;
+  location: string;
+  employmentType: string;
+  url: string;
+  datePosted: Date;
+  validThrough?: Date | null;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "JobPosting",
+    title: job.title,
+    description: job.description,
+    datePosted: job.datePosted.toISOString(),
+    ...(job.validThrough ? { validThrough: job.validThrough.toISOString() } : {}),
+    employmentType: job.employmentType,
+    hiringOrganization: {
+      "@type": "Organization",
+      name: site.name,
+      sameAs: site.url,
+      logo: absoluteUrl("/icon.svg"),
+    },
+    jobLocation: {
+      "@type": "Place",
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: job.location,
+      },
+    },
+    url: job.url,
+  };
+}
+
+export function aboutPageJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    name: `About | ${site.name}`,
+    url: absoluteUrl("/about"),
+    description: site.description,
+  };
+}
+
+export function contactPageJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ContactPage",
+    name: `Contact | ${site.name}`,
+    url: absoluteUrl("/contact"),
+    description: "Get in touch with us.",
+  };
+}
+
+export function faqPageJsonLd(questions: { question: string; answer: string }[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: questions.map((q) => ({
+      "@type": "Question",
+      name: q.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: q.answer,
+      },
+    })),
+  };
+}

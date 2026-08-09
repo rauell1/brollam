@@ -14,7 +14,7 @@ import {
   getNextCaseStudy,
   listServices,
 } from "@/lib/data/public";
-import { JsonLd, breadcrumbJsonLd, pageMetadata } from "@/lib/seo";
+import { JsonLd, breadcrumbJsonLd, pageMetadata, caseStudyJsonLd } from "@/lib/seo";
 import { formatDate } from "@/lib/utils";
 
 export const revalidate = 300;
@@ -54,6 +54,16 @@ export default async function CaseStudyDetailPage({ params }: PageProps<"/case-s
           { name: "Case Studies", path: "/case-studies" },
           { name: caseStudy.title, path: `/case-studies/${caseStudy.slug}` },
         ])}
+      />
+      <JsonLd
+        data={caseStudyJsonLd({
+          title: caseStudy.title,
+          summary: caseStudy.summary,
+          slug: caseStudy.slug,
+          image: caseStudy.featuredImage,
+          publishedAt: caseStudy.publishedAt,
+          clientName: caseStudy.clientName,
+        })}
       />
 
       <PageHero

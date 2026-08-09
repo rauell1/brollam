@@ -10,7 +10,7 @@ import { TeamSection } from "@/components/site/team-section";
 import { CtaSection } from "@/components/site/cta-section";
 import { teamGroups } from "@/lib/content/sections";
 import { listActiveTeam, listServices } from "@/lib/data/public";
-import { pageMetadata } from "@/lib/seo";
+import { pageMetadata, JsonLd, aboutPageJsonLd } from "@/lib/seo";
 
 export const revalidate = 300;
 
@@ -26,6 +26,7 @@ export default async function AboutPage() {
 
   return (
     <>
+      <JsonLd data={aboutPageJsonLd()} />
       <PageHero
         eyebrow="About Brollam"
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "About" }]}

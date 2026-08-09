@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Pencil } from "lucide-react";
-import { listAllInsights } from "@/lib/data/admin";
+import { listAllInsights, countAllInsights } from "@/lib/data/admin";
 import { deleteInsight, toggleInsightFlag } from "@/lib/actions/admin/insights";
 import { AdminPageHeader } from "@/components/admin/page-header";
 import { DataCell, DataRow, DataTable } from "@/components/admin/data-table";
@@ -11,8 +11,20 @@ import { formatDate } from "@/lib/utils";
 
 export const metadata = { title: "Insights" };
 
-export default async function AdminInsightsPage() {
-  const insights = await listAllInsights();
+export default async function AdminInsightsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
+  const params = await searchParams;
+  const page = typeof params.page === "string" ? parseInt(params.page, 10) || 1 : 1;
+  const pageSize = 20;
+
+  const [insights, totalCount] = await Promise.all([
+    listAllInsights(page, pageSize),
+    countAllInsights(),
+  ]);
+  const totalPages = Math.ceil(totalCount / pageSize);
 
   return (
     <div>
@@ -38,6 +50,11 @@ export default async function AdminInsightsPage() {
             { key: "status", label: "Status" },
             { key: "actions", label: "Actions", className: "text-right" },
           ]}
+          pagination={{
+            currentPage: page,
+            totalPages,
+            basePath: "/admin/insights",
+          }}
         >
           {insights.map((insight) => (
             <DataRow key={insight.id}>

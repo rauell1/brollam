@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Pencil } from "lucide-react";
-import { listAllCaseStudies } from "@/lib/data/admin";
+import { listAllCaseStudies, countAllCaseStudies } from "@/lib/data/admin";
 import { deleteCaseStudy, toggleCaseStudyFlag } from "@/lib/actions/admin/case-studies";
 import { AdminPageHeader } from "@/components/admin/page-header";
 import { DataCell, DataRow, DataTable } from "@/components/admin/data-table";
@@ -10,8 +10,20 @@ import { ToggleButton } from "@/components/admin/quick-actions";
 
 export const metadata = { title: "Case Studies" };
 
-export default async function AdminCaseStudiesPage() {
-  const caseStudies = await listAllCaseStudies();
+export default async function AdminCaseStudiesPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
+  const params = await searchParams;
+  const page = typeof params.page === "string" ? parseInt(params.page, 10) || 1 : 1;
+  const pageSize = 20;
+
+  const [caseStudies, totalCount] = await Promise.all([
+    listAllCaseStudies(page, pageSize),
+    countAllCaseStudies(),
+  ]);
+  const totalPages = Math.ceil(totalCount / pageSize);
 
   return (
     <div>
@@ -38,6 +50,11 @@ export default async function AdminCaseStudiesPage() {
             { key: "status", label: "Status" },
             { key: "actions", label: "Actions", className: "text-right" },
           ]}
+          pagination={{
+            currentPage: page,
+            totalPages,
+            basePath: "/admin/case-studies",
+          }}
         >
           {caseStudies.map((caseStudy) => (
             <DataRow key={caseStudy.id}>

@@ -7,7 +7,7 @@ import { Reveal } from "@/components/site/reveal";
 import { RichText } from "@/components/site/rich-text";
 import { site } from "@/lib/config";
 import { listOpenCareers } from "@/lib/data/public";
-import { JsonLd, breadcrumbJsonLd, pageMetadata } from "@/lib/seo";
+import { JsonLd, breadcrumbJsonLd, pageMetadata, jobPostingJsonLd } from "@/lib/seo";
 import { formatDate } from "@/lib/utils";
 
 export const revalidate = 300;
@@ -30,6 +30,20 @@ export default async function CareersPage() {
           { name: "Careers", path: "/careers" },
         ])}
       />
+      {careers.map((career) => (
+        <JsonLd
+          key={`jsonld-${career.id}`}
+          data={jobPostingJsonLd({
+            title: career.title,
+            description: career.description || career.summary || "Open position.",
+            location: career.location || "Remote",
+            employmentType: career.employmentType || "FULL_TIME",
+            url: `${site.url}/careers#${career.id}`,
+            datePosted: new Date(), // Ideally this would come from a createdAt field, defaulting to now
+            validThrough: career.closesAt,
+          })}
+        />
+      ))}
       <PageHero
         eyebrow="Careers"
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "Careers" }]}
