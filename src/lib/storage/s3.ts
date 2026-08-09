@@ -54,16 +54,26 @@ export interface S3Config {
  * the uploader and fall back to pasting a URL rather than crashing.
  */
 export function getS3Config(): S3Config | null {
+  // AWS_* fallbacks so `neon env pull` output works unmodified: Neon Object
+  // Storage writes AWS_ENDPOINT_URL_S3, AWS_ACCESS_KEY_ID, and friends.
   const bucket = process.env.S3_BUCKET;
   const region = process.env.S3_REGION ?? process.env.AWS_REGION;
-  const accessKeyId = process.env.S3_ACCESS_KEY_ID;
-  const secretAccessKey = process.env.S3_SECRET_ACCESS_KEY;
+  const accessKeyId = process.env.S3_ACCESS_KEY_ID ?? process.env.AWS_ACCESS_KEY_ID;
+  const secretAccessKey =
+    process.env.S3_SECRET_ACCESS_KEY ?? process.env.AWS_SECRET_ACCESS_KEY;
   if (!bucket || !region || !accessKeyId || !secretAccessKey) return null;
 
-  const endpoint = process.env.S3_ENDPOINT || undefined;
+  const endpoint =
+    process.env.S3_ENDPOINT || process.env.AWS_ENDPOINT_URL_S3 || undefined;
+
+  // A custom endpoint means path style addressing, so the bucket is part of
+  // the path rather than the host. Guessing the AWS virtual host form there
+  // would produce URLs that 404.
   const publicBaseUrl =
     process.env.S3_PUBLIC_BASE_URL?.replace(/\/$/, "") ??
-    `https://${bucket}.s3.${region}.amazonaws.com`;
+    (endpoint
+      ? `${endpoint.replace(/\/$/, "")}/${bucket}`
+      : `https://${bucket}.s3.${region}.amazonaws.com`);
 
   return { bucket, region, endpoint, publicBaseUrl, accessKeyId, secretAccessKey };
 }

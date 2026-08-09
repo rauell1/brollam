@@ -1,23 +1,62 @@
 # Media storage
 
-The media library stores metadata and URLs. Binaries live in an S3 bucket
-and are uploaded straight from the browser using a short lived presigned
-`PUT`, so files never pass through a serverless function and the 4.5 MB
-request body limit does not apply.
+The media library stores metadata and URLs. Binaries live in an S3 compatible
+bucket and are uploaded straight from the browser using a short lived
+presigned `POST`, so files never pass through a serverless function and the
+4.5 MB request body limit does not apply.
 
-Bucket: `brollam-media` · Region: `eu-west-1`
+Works with AWS S3 or any S3 compatible provider. **Neon Object Storage is the
+recommended option here** — it lives in the same project as the database,
+buckets branch alongside it, and it needs no AWS account. See
+[Neon Object Storage](#neon-object-storage) below.
 
 ## Environment variables
 
 | Variable | Required | Notes |
 | --- | --- | --- |
-| `S3_BUCKET` | yes | `brollam-media` |
-| `S3_REGION` | yes | `eu-west-1` |
-| `S3_ACCESS_KEY_ID` | yes | IAM user key, see policy below |
-| `S3_SECRET_ACCESS_KEY` | yes | Mark sensitive in Vercel |
-| `S3_ENDPOINT` | no | Only for non-AWS S3 (R2, Backblaze). Enables path style addressing |
-| `S3_PUBLIC_BASE_URL` | no | CDN origin. Defaults to `https://brollam-media.s3.eu-west-1.amazonaws.com` |
+| `S3_BUCKET` | yes | Bucket name |
+| `S3_REGION` | yes | Falls back to `AWS_REGION` |
+| `S3_ACCESS_KEY_ID` | yes | Falls back to `AWS_ACCESS_KEY_ID` |
+| `S3_SECRET_ACCESS_KEY` | yes | Falls back to `AWS_SECRET_ACCESS_KEY`. Mark sensitive in Vercel |
+| `S3_ENDPOINT` | for non-AWS | Falls back to `AWS_ENDPOINT_URL_S3`. Enables path style addressing |
+| `S3_PUBLIC_BASE_URL` | no | CDN origin. Defaults to the endpoint plus bucket (path style), or the AWS virtual host form |
 | `NEXT_PUBLIC_IMAGE_HOSTS` | no | Extra comma separated hosts for `next/image` |
+
+The `AWS_*` fallbacks exist so `neon env pull --file .env.local` output works
+unmodified; only `S3_BUCKET` has to be added by hand.
+
+## Neon Object Storage
+
+Buckets are scoped to a branch and fork with it copy-on-write, so a preview
+branch gets an isolated media library without duplicating anything.
+
+1. **Create the bucket** in Console → branch → Storage, or
+   `neon buckets create brollam-media --access-level public_read`.
+   Set visibility to **Public** — the default is Private, which would break
+   `next/image`, crawlers, and social card scrapers.
+2. **Create a credential** under the branch's **Credentials** page with the
+   `storage:write` scope. `token_id` is the access key ID and
+   `s3_secret_access_key` is the secret; both are shown once only.
+   Create it on the **production** branch: credentials are valid for that
+   branch and every descendant, so previews are covered by the same one.
+3. **Set the variables:**
+
+```bash
+S3_BUCKET=brollam-media
+S3_REGION=us-east-2
+S3_ENDPOINT=https://<branch-id>.storage.c-<N>.us-east-2.aws.neon.tech
+S3_ACCESS_KEY_ID=nak_live_...
+S3_SECRET_ACCESS_KEY=nsk_live_...
+```
+
+`S3_PUBLIC_BASE_URL` can be omitted: with an endpoint set, the public base is
+derived as `<endpoint>/<bucket>`, which matches Neon's path style public URL
+`https://<branch-id>.storage.c-<N>.us-east-2.aws.neon.tech/<bucket>/<key>`.
+
+Neon Object Storage is in Beta. It supports browser form uploads (POST),
+presigned requests, and `PutBucketCors`, which is everything this code needs.
+Access level is set through the Console or Neon API — `PutBucketAcl` and
+`PutBucketPolicy` return `501`, so the AWS bucket policy below does not apply.
 
 Until `S3_BUCKET`, `S3_REGION`, and both credentials are present, `hasStorage`
 is false: the uploader is hidden and the media form falls back to pasting a
@@ -63,7 +102,9 @@ aws s3api put-bucket-cors --bucket brollam-media --cors-configuration file://cor
 Only `POST` is needed. Reads are plain public GETs and never preflight.
 Add your production domain here too once it is pointed at the site.
 
-## Public read policy
+## Public read policy (AWS S3 only)
+
+Not needed on Neon — set the bucket's access level to `public_read` instead.
 
 Disable "Block all public access" for this bucket first, then:
 
@@ -84,7 +125,9 @@ Disable "Block all public access" for this bucket first, then:
 
 Scoped to the `media/` prefix, which is the only prefix the app writes to.
 
-## IAM policy for the application
+## IAM policy for the application (AWS S3 only)
+
+On Neon the equivalent is a credential scoped to `storage:write`.
 
 The app only ever signs uploads. It needs no read, list, or delete.
 
