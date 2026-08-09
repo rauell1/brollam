@@ -6,16 +6,23 @@ Three mood directions were explored before the build. The shipped direction take
 
 1. **Signal in the dark.** A near black canvas lit by a single disciplined gold source: light trails, wavelengths, a focal point. This became the hero and campaign visual language. It reads as energy, transmission, and visibility without depicting any literal object, and it cannot be confused for stock photography.
 2. **Editorial geometry.** Fine concentric lines, radar like ripples, chain and network diagrams. This became the language of the Visibility Gap section, the insight covers, and the service card motifs (each pillar card carries a small CSS drawn emblem rather than a generic icon alone).
-3. **Quiet luxury print.** Cream paper tones translated into a dark idiom: warm white text, hairline rules, restrained radii (2 to 4px on interactive elements), and a serif italic for exactly one emphasis per headline.
+3. **Quiet luxury print.** Cream paper tones form the light canvas, while warm white text carries the same character into dark mode. Hairline rules, restrained radii (2 to 4px on interactive elements), and a serif italic for exactly one emphasis per headline keep both themes editorial.
 
 Directions rejected after the moodboard pass: literal African pattern motifs (decorative tokenism, not brand strategy), photography led layouts (no approved photography exists yet), and neon tech palettes (violates the warm, editorial tone).
 
 ## Visual language rules
 
-- **Canvas**: near black `#0B0B0A`. Surfaces lift to `#151515` and `#1B1B1B`, never with shadows as the primary separator; hairline borders (`#292927`) do the structural work.
-- **Light**: one accent, gold `#C99A3D`, brightened to `#DCB25E` for hover and emphasis. It appears on interactive elements, one italic word per major headline, and inside artwork. It never floods large fills.
+- **Light canvas**: paper `#F7F4EC`, text `#1D1B16`, antique gold `#8A6A24`, and hairline borders `#DCD5C4`. Pale surfaces create depth without relying on shadows.
+- **Dark canvas**: near black `#0B0B0A`, warm white `#F4F1EA`, and gold `#C99A3D`. Surfaces lift to `#151515` and `#1B1B1B`; borders at `#292927` do the structural work.
+- **Accent**: gold appears on interactive elements, one italic word per major headline, and inside artwork. It never floods large fills. Each palette uses a contrast-safe gold calibrated for its canvas.
 - **Imagery**: abstract gold on black compositions exclusively until commissioned photography replaces them. Images are cropped wide, treated with a dark scrim where text sits on top, and always served through `next/image`.
 - **Iconography**: Lucide outline icons at 1.5px stroke, used sparingly, always paired with a label.
+
+## Theme behavior
+
+Light mode is the default when no browser preference is available. On the first visit, the site follows `prefers-color-scheme`; after a visitor uses the Sun and Moon control, the explicit choice is stored under `brollam-theme`. A synchronous script in the document head applies that choice before paint, so neither theme flashes during hydration.
+
+The homepage hero, final call to action, footer, and Visibility Gap artwork remain scoped to the dark palette in both modes. These are intentional cinematic anchors rather than exceptions to the token system. The homepage header adopts the same cinematic colors only while it overlays the hero, then returns to the selected document theme once scrolled.
 
 ## Asset map
 

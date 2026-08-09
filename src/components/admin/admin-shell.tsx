@@ -27,6 +27,7 @@ import {
   DialogContent,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { ThemeToggle } from "@/components/site/theme-toggle";
 import { cn } from "@/lib/utils";
 
 interface NavItem {
@@ -202,14 +203,17 @@ export function AdminShell({
           <span className="text-sm font-extrabold tracking-[0.22em]">BROLLAM</span>
           <span className="text-[0.55rem] font-semibold tracking-[0.36em] text-accent">ADMIN</span>
         </Link>
-        <button
-          type="button"
-          onClick={() => setDrawerOpen(true)}
-          aria-label="Open admin menu"
-          className="inline-flex h-10 w-10 items-center justify-center rounded-sm border border-border-strong text-foreground"
-        >
-          <Menu className="h-5 w-5" />
-        </button>
+        <div className="flex items-center gap-2">
+          <ThemeToggle />
+          <button
+            type="button"
+            onClick={() => setDrawerOpen(true)}
+            aria-label="Open admin menu"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-sm border border-border-strong text-foreground"
+          >
+            <Menu className="h-5 w-5" />
+          </button>
+        </div>
       </div>
 
       {/* Mobile drawer */}
@@ -221,14 +225,17 @@ export function AdminShell({
           <DialogTitle className="sr-only">Admin navigation</DialogTitle>
           <div className="flex h-14 items-center justify-between border-b border-border px-4">
             <span className="text-sm font-extrabold tracking-[0.22em]">BROLLAM</span>
-            <button
-              type="button"
-              onClick={() => setDrawerOpen(false)}
-              aria-label="Close admin menu"
-              className="inline-flex h-10 w-10 items-center justify-center rounded-sm border border-border-strong text-foreground"
-            >
-              <X className="h-5 w-5" />
-            </button>
+            <div className="flex items-center gap-2">
+              <ThemeToggle />
+              <button
+                type="button"
+                onClick={() => setDrawerOpen(false)}
+                aria-label="Close admin menu"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-sm border border-border-strong text-foreground"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
           </div>
           <div className="p-4">
             <NavLinks role={user.role} newEnquiries={newEnquiries} onNavigate={() => setDrawerOpen(false)} />
@@ -238,11 +245,12 @@ export function AdminShell({
 
       {/* Desktop sidebar */}
       <aside className="fixed inset-y-0 left-0 z-40 hidden w-64 flex-col border-r border-border bg-background lg:flex">
-        <div className="flex h-16 items-center gap-2 border-b border-border px-5">
+        <div className="flex h-16 items-center justify-between gap-2 border-b border-border px-5">
           <Link href="/admin" className="inline-flex items-baseline gap-1.5">
             <span className="text-[0.95rem] font-extrabold tracking-[0.22em]">BROLLAM</span>
             <span className="text-[0.55rem] font-semibold tracking-[0.36em] text-accent">ADMIN</span>
           </Link>
+          <ThemeToggle />
         </div>
         <div className="flex-1 overflow-y-auto p-4">
           <NavLinks role={user.role} newEnquiries={newEnquiries} />

@@ -8,6 +8,7 @@ import { mainNav, site } from "@/lib/config";
 import { cn } from "@/lib/utils";
 import { Logo } from "./logo";
 import { MobileMenu } from "./mobile-menu";
+import { ThemeToggle } from "./theme-toggle";
 
 export function Header() {
   const pathname = usePathname();
@@ -28,6 +29,7 @@ export function Header() {
     <header
       className={cn(
         "fixed inset-x-0 top-0 z-40 transition-all duration-500",
+        pathname === "/" && !scrolled && "theme-cinematic",
         scrolled
           ? "border-b border-border/80 bg-background/85 backdrop-blur-md"
           : "border-b border-transparent bg-transparent",
@@ -63,6 +65,7 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-3">
+          <ThemeToggle className="hidden lg:inline-flex" />
           <Link
             href="/contact"
             className="group hidden h-10 items-center gap-1.5 rounded-sm border border-accent/50 px-5 text-[0.72rem] font-semibold tracking-[0.18em] text-accent uppercase transition-all hover:border-accent hover:bg-accent/10 sm:inline-flex"

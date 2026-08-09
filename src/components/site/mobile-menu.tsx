@@ -7,6 +7,7 @@ import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { ArrowUpRight, X } from "lucide-react";
 import { mainNav, site } from "@/lib/config";
 import { cn } from "@/lib/utils";
+import { ThemeToggle } from "./theme-toggle";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -56,15 +57,18 @@ export function MobileMenu({
                       PARTNERS
                     </span>
                   </span>
-                  <DialogPrimitive.Close asChild>
-                    <button
-                      type="button"
-                      aria-label="Close menu"
-                      className="inline-flex h-10 w-10 items-center justify-center rounded-sm border border-border-strong text-foreground transition-colors hover:border-accent hover:text-accent"
-                    >
-                      <X className="h-5 w-5" />
-                    </button>
-                  </DialogPrimitive.Close>
+                  <div className="flex items-center gap-2">
+                    <ThemeToggle />
+                    <DialogPrimitive.Close asChild>
+                      <button
+                        type="button"
+                        aria-label="Close menu"
+                        className="inline-flex h-10 w-10 items-center justify-center rounded-sm border border-border-strong text-foreground transition-colors hover:border-accent hover:text-accent"
+                      >
+                        <X className="h-5 w-5" />
+                      </button>
+                    </DialogPrimitive.Close>
+                  </div>
                 </div>
 
                 <nav

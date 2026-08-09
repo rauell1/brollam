@@ -6,7 +6,7 @@ import { Reveal } from "./reveal";
 
 export function CtaSection() {
   return (
-    <section aria-labelledby="final-cta" className="relative overflow-hidden">
+    <section aria-labelledby="final-cta" className="dark relative overflow-hidden">
       <div className="absolute inset-0">
         <Image
           src="/media/dev/cta-background.jpg"
