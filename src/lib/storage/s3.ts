@@ -1,16 +1,19 @@
 import { randomUUID } from "node:crypto";
 import { S3Client } from "@aws-sdk/client-s3";
-import { PutObjectCommand } from "@aws-sdk/client-s3";
-import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+import { createPresignedPost } from "@aws-sdk/s3-presigned-post";
 
 /**
  * Object storage for the media library.
  *
  * Uploads go straight from the browser to the bucket using a short lived
- * presigned PUT, so binaries never pass through a serverless function and
+ * presigned POST, so binaries never pass through a serverless function and
  * we stay clear of the request body limit. The route that mints the
  * signature is the trust boundary: it authenticates, picks the key, and
  * pins the content type.
+ *
+ * POST rather than PUT specifically because only the POST policy supports
+ * content-length-range. S3 itself then rejects anything over the ceiling,
+ * instead of trusting a size the client claimed before uploading.
  *
  * Objects are expected to be publicly readable. This is a public marketing
  * site, so images have to be fetchable by next/image, crawlers, and social
@@ -95,8 +98,11 @@ export function buildObjectKey(contentType: string): string {
 
 export interface PresignedUpload {
   uploadUrl: string;
+  /** Hidden form fields that must be sent before the file part. */
+  fields: Record<string, string>;
   publicUrl: string;
   key: string;
+  maxBytes: number;
   expiresInSeconds: number;
 }
 
@@ -112,18 +118,26 @@ export async function createPresignedUpload(
   const key = buildObjectKey(contentType);
   const expiresInSeconds = 60;
 
-  // ContentType is part of the signature: the browser cannot upload a
-  // different type than the one that was authorised.
-  const uploadUrl = await getSignedUrl(
-    getClient(config),
-    new PutObjectCommand({ Bucket: config.bucket, Key: key, ContentType: contentType }),
-    { expiresIn: expiresInSeconds },
-  );
+  const { url, fields } = await createPresignedPost(getClient(config), {
+    Bucket: config.bucket,
+    Key: key,
+    Expires: expiresInSeconds,
+    Fields: { "Content-Type": contentType },
+    Conditions: [
+      // Enforced by S3 on the actual bytes received, not on a claim.
+      ["content-length-range", 1, MAX_UPLOAD_BYTES],
+      // The browser cannot substitute a different type than authorised.
+      ["eq", "$Content-Type", contentType],
+      ["eq", "$key", key],
+    ],
+  });
 
   return {
-    uploadUrl,
+    uploadUrl: url,
+    fields,
     publicUrl: `${config.publicBaseUrl}/${key}`,
     key,
+    maxBytes: MAX_UPLOAD_BYTES,
     expiresInSeconds,
   };
 }

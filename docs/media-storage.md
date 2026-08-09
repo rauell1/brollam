@@ -48,7 +48,7 @@ origins with your own before applying.
       "https://brollam.vercel.app",
       "http://localhost:3000"
     ],
-    "AllowedMethods": ["PUT"],
+    "AllowedMethods": ["POST"],
     "AllowedHeaders": ["content-type"],
     "ExposeHeaders": ["ETag"],
     "MaxAgeSeconds": 3000
@@ -60,7 +60,7 @@ origins with your own before applying.
 aws s3api put-bucket-cors --bucket brollam-media --cors-configuration file://cors.json
 ```
 
-Only `PUT` is needed. Reads are plain public GETs and never preflight.
+Only `POST` is needed. Reads are plain public GETs and never preflight.
 Add your production domain here too once it is pointed at the site.
 
 ## Public read policy
@@ -109,20 +109,17 @@ The app only ever signs uploads. It needs no read, list, or delete.
 - The **server** builds the object key: `media/YYYY-MM/<uuid>.<ext>`, with the
   extension taken from a MIME allowlist rather than the client's filename.
   A client supplied path would allow overwriting arbitrary objects.
-- `ContentType` is part of the signature, so a signature issued for
-  `image/png` cannot be used to upload HTML.
+- `Content-Type` and `key` are pinned by the POST policy, so a signature
+  issued for `image/png` cannot be used to upload HTML or to a different key.
+- **Size is enforced by S3**, not by trusting the client. The policy carries
+  `["content-length-range", 1, MAX_UPLOAD_BYTES]`, so the bucket itself
+  rejects anything over 25 MB with `EntityTooLarge`. The route also rejects
+  an oversized *declared* size early, purely to save a wasted round trip.
 - Signatures expire after 60 seconds. Uploads are rate limited to 60 per
   admin per 10 minutes.
 
-### Known limitation: size is not hard enforced
-
-The route rejects oversized files by their *declared* size, but a presigned
-`PUT` cannot cap actual bytes — only a presigned `POST` can, via
-`content-length-range`. A crafted request could therefore exceed
-`MAX_UPLOAD_BYTES` (25 MB).
-
-To close this, switch to `@aws-sdk/s3-presigned-post`. Until then, an S3
-bucket lifecycle rule or a billing alarm is the practical backstop.
+`POST` rather than `PUT` is deliberate: only the POST policy supports
+`content-length-range`. A presigned PUT cannot cap actual bytes at all.
 
 ## Allowed types
 

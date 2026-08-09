@@ -43,13 +43,14 @@ export function MediaUpload({ onUploaded, disabled }: MediaUploadProps) {
         throw new Error(body.error ?? "Could not prepare the upload.");
       }
 
-      const { uploadUrl, publicUrl } = (await response.json()) as {
+      const { uploadUrl, fields, publicUrl } = (await response.json()) as {
         uploadUrl: string;
+        fields: Record<string, string>;
         publicUrl: string;
       };
 
       setStatus("uploading");
-      await putToStorage(uploadUrl, file, setProgress);
+      await postToStorage(uploadUrl, fields, file, setProgress);
 
       setStatus("done");
       setMessage(file.name);
@@ -121,16 +122,22 @@ export function MediaUpload({ onUploaded, disabled }: MediaUploadProps) {
   );
 }
 
-function putToStorage(
+function postToStorage(
   url: string,
+  fields: Record<string, string>,
   file: File,
   onProgress: (percent: number) => void,
 ): Promise<void> {
   return new Promise((resolve, reject) => {
+    const form = new FormData();
+    // Policy fields must all precede the file part; S3 ignores anything
+    // that arrives after it.
+    for (const [name, value] of Object.entries(fields)) form.append(name, value);
+    form.append("file", file);
+
     const xhr = new XMLHttpRequest();
-    xhr.open("PUT", url);
-    // Must match the type that was signed, or the bucket rejects it.
-    xhr.setRequestHeader("Content-Type", file.type);
+    xhr.open("POST", url);
+    // Content-Type is set from the FormData boundary; do not override it.
 
     xhr.upload.addEventListener("progress", (event) => {
       if (event.lengthComputable) {
@@ -139,14 +146,19 @@ function putToStorage(
     });
 
     xhr.addEventListener("load", () => {
-      if (xhr.status >= 200 && xhr.status < 300) resolve();
-      else reject(new Error(`Storage rejected the upload (${xhr.status}).`));
+      if (xhr.status >= 200 && xhr.status < 300) {
+        resolve();
+      } else if (xhr.status === 403 && /EntityTooLarge/.test(xhr.responseText)) {
+        reject(new Error("That file is larger than the upload limit."));
+      } else {
+        reject(new Error(`Storage rejected the upload (${xhr.status}).`));
+      }
     });
     xhr.addEventListener("error", () =>
       reject(new Error("Network error while uploading. Check the bucket CORS rules.")),
     );
     xhr.addEventListener("abort", () => reject(new Error("Upload cancelled.")));
 
-    xhr.send(file);
+    xhr.send(form);
   });
 }
