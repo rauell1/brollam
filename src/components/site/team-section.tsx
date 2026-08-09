@@ -1,114 +1,64 @@
-import Image from "next/image";
-import { ArrowUpRight } from "lucide-react";
-import { teamClosingStatement, teamGroups } from "@/lib/content/sections";
-import type { TeamMemberDto } from "@/lib/data/public";
-import { initials } from "@/lib/utils";
 import { Container } from "./container";
-import { Reveal } from "./reveal";
+import { Reveal, RevealGroup, RevealItem } from "./reveal";
 import { SectionHeader } from "./section-header";
 
-export function TeamCard({ member }: { member: TeamMemberDto }) {
-  return (
-    <article className="group">
-      <div className="relative aspect-[4/5] overflow-hidden rounded-md border border-border bg-card">
-        {member.image ? (
-          <Image
-            src={member.image}
-            alt={`Portrait of ${member.name}`}
-            fill
-            sizes="(min-width: 1024px) 22vw, (min-width: 640px) 45vw, 100vw"
-            className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
-          />
-        ) : (
-          <div
-            className="texture-grain absolute inset-0 flex items-center justify-center"
-            role="img"
-            aria-label={`Portrait of ${member.name} coming soon`}
-          >
-            <span className="flex h-24 w-24 items-center justify-center rounded-full border border-accent/40 font-display text-4xl text-accent italic sm:h-28 sm:w-28">
-              {initials(member.name)}
-            </span>
-          </div>
-        )}
-        {member.linkedinUrl ? (
-          <a
-            href={member.linkedinUrl}
-            target="_blank"
-            rel="noreferrer"
-            aria-label={`${member.name} on LinkedIn`}
-            className="absolute right-4 bottom-4 inline-flex h-9 items-center gap-1.5 rounded-sm border border-border-strong bg-background/80 px-3 text-[0.6rem] font-semibold tracking-[0.18em] text-muted-foreground uppercase backdrop-blur transition-colors hover:border-accent hover:text-accent"
-          >
-            LinkedIn
-            <ArrowUpRight className="h-3 w-3" />
-          </a>
-        ) : null}
-      </div>
-      <h3 className="mt-5 font-display text-2xl text-foreground">{member.name}</h3>
-      <p className="mt-1.5 text-[0.7rem] font-semibold tracking-[0.24em] text-accent uppercase">
-        {member.role}
-      </p>
-      {member.biography ? (
-        <p className="mt-3 text-[0.88rem] leading-relaxed text-muted-foreground">{member.biography}</p>
-      ) : null}
-      {member.expertise.length > 0 && (
-        <ul className="mt-4 flex flex-wrap gap-1.5" aria-label={`${member.name} expertise`}>
-          {member.expertise.map((skill) => (
-            <li
-              key={skill}
-              className="rounded-xs border border-border px-2 py-0.5 text-[0.65rem] font-medium tracking-wide text-muted-foreground"
-            >
-              {skill}
-            </li>
-          ))}
-        </ul>
-      )}
-    </article>
-  );
-}
+const partners = [
+  {
+    name: "Josef Mafumbo",
+    role: "Design & Creative Systems",
+    bio: "Brand identity, motion design and brand films, UI/UX, 3D renders, editorial design. 9+ years, 120+ projects shipped.",
+  },
+  {
+    name: "Adala Allan",
+    role: "Communications, PR & Brand Strategy",
+    bio: "Media strategy, storytelling, integrated campaigns, digital growth, founder profiling. 7+ years; 8,500km+ of expedition PR coverage; BBC, CNN, National Geographic, Bloomberg, The Economist.",
+  },
+  {
+    name: "Brian M. Burudi",
+    role: "B2B Sales & Market Expansion",
+    bio: "Enterprise sales, market expansion, strategic partnerships, key accounts, agent networks. 5+ years; grew an SME agent network from 18 to 100.",
+  },
+  {
+    name: "Roy Okola Otieno",
+    role: "Clean Energy & E-Mobility Systems",
+    bio: "Solar PV, battery storage, EV-charging infrastructure, feasibility studies, data & GIS tooling. 25+ active sites monitored; KES 3M+ deployed; KES 50M+ pipeline supported.",
+  }
+];
 
-export function TeamSection({ members }: { members: TeamMemberDto[] }) {
-  if (members.length === 0) return null;
-
+export function TeamSection() {
   return (
-    <section aria-labelledby="team" className="bg-surface/40 py-24 sm:py-32">
+    <section id="team" aria-labelledby="team-heading" className="py-24 sm:py-32 bg-surface">
       <Container>
         <SectionHeader
-          id="team"
+          id="team-heading"
           eyebrow="The Team"
-          title={
-            <>
-              Built By <em className="text-accent italic">Specialists.</em>
-            </>
-          }
-          description="An integrated group spanning design and technology, communications and brand strategy, sales and partnerships, and clean energy engineering."
-          className="mb-14"
+          title="The people behind the work."
         />
 
-        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
-          {members.map((member, index) => (
-            <Reveal key={member.id} delay={index * 0.07}>
-              <TeamCard member={member} />
-            </Reveal>
-          ))}
-        </div>
-
-        <Reveal delay={0.15}>
-          <div className="mt-16 grid gap-px overflow-hidden rounded-md border border-border bg-border sm:grid-cols-2 lg:grid-cols-4">
-            {teamGroups.map((group) => (
-              <div key={group.name} className="bg-card px-6 py-7">
-                <p className="font-display text-lg text-foreground">{group.name}</p>
-                <p className="mt-2 text-[0.78rem] leading-relaxed text-muted-foreground">
-                  {group.note}
-                </p>
+        <RevealGroup className="mt-16 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-4" stagger={0.1}>
+          {partners.map((partner) => (
+            <RevealItem key={partner.name}>
+              <div className="flex flex-col h-full group">
+                <div className="flex-1">
+                  <h3 className="font-display text-xl text-foreground">{partner.name}</h3>
+                  <p className="mt-2 text-[0.7rem] font-semibold tracking-[0.2em] text-accent uppercase">
+                    {partner.role}
+                  </p>
+                  <p className="mt-4 text-sm leading-relaxed text-muted-foreground group-hover:text-foreground transition-colors">
+                    {partner.bio}
+                  </p>
+                </div>
               </div>
-            ))}
-          </div>
-        </Reveal>
+            </RevealItem>
+          ))}
+        </RevealGroup>
 
-        <Reveal delay={0.2}>
-          <p className="mx-auto mt-16 max-w-3xl text-center font-display text-2xl leading-relaxed text-muted-foreground sm:text-[1.7rem]">
-            &ldquo;{teamClosingStatement.replace(/\.$/, "")}.&rdquo;
-          </p>
+        <Reveal delay={0.4}>
+          <div className="mt-20 max-w-3xl border-t border-border pt-10">
+            <p className="text-lg leading-relaxed text-foreground font-display italic">
+              Together, this platform combines brand design, strategic communications, B2B sales and clean-energy engineering — one accountable group, not a referral network.
+            </p>
+          </div>
         </Reveal>
       </Container>
     </section>

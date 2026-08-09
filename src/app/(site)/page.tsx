@@ -1,73 +1,86 @@
 import { Hero } from "@/components/site/hero";
-import { ProofBar, TrustedBy } from "@/components/site/proof-bar";
 import { VisibilityGap } from "@/components/site/visibility-gap";
-import { ServicesBento } from "@/components/site/services-bento";
+import { WhatWeDo } from "@/components/site/what-we-do";
+import { ServicesCarousel } from "@/components/site/services-carousel";
+import { SectorsMarquee } from "@/components/site/sectors-marquee";
 import { FeaturedCaseStudy } from "@/components/site/featured-case-study";
-import { TrackRecord } from "@/components/site/track-record";
 import { ProcessTimeline } from "@/components/site/process-timeline";
 import { WorkGrid } from "@/components/site/work-grid";
-import { ClientsPartners } from "@/components/site/clients-partners";
+import { LogoWall } from "@/components/site/logo-wall";
 import { InsightsSection } from "@/components/site/insights-section";
 import { TeamSection } from "@/components/site/team-section";
-import { EcosystemSection } from "@/components/site/ecosystem-section";
+import { InvestWithUs } from "@/components/site/invest-with-us";
+import { CareersTeaser } from "@/components/site/careers-teaser";
+import { CommitmentParallax } from "@/components/site/commitment-parallax";
 import { CtaSection } from "@/components/site/cta-section";
 import { JsonLd, organizationJsonLd, websiteJsonLd } from "@/lib/seo";
 import {
   getFeaturedCaseStudy,
-  listActiveClients,
-  listActivePartners,
-  listActiveStats,
-  listActiveTeam,
   listCaseStudies,
   listInsights,
-  listPublishedTestimonials,
-  listServices,
 } from "@/lib/data/public";
 
 export const revalidate = 300;
 
 export default async function HomePage() {
   const [
-    services,
-    companyStats,
-    clients,
-    partners,
     featuredCaseStudy,
     caseStudies,
-    trackRecord,
     insights,
-    team,
-    testimonials,
   ] = await Promise.all([
-    listServices(),
-    listActiveStats("COMPANY"),
-    listActiveClients(),
-    listActivePartners(),
     getFeaturedCaseStudy(),
     listCaseStudies(),
-    listActiveStats("TEAM_TRACK_RECORD"),
     listInsights(),
-    listActiveTeam(),
-    listPublishedTestimonials(),
   ]);
 
   return (
     <>
       <JsonLd data={organizationJsonLd()} />
       <JsonLd data={websiteJsonLd()} />
+      
+      {/* 1. Hero */}
       <Hero />
-      <ProofBar stats={companyStats} />
-      <TrustedBy clients={clients} />
+      
+      {/* 2. The Funding Visibility Gap */}
       <VisibilityGap />
-      <ServicesBento services={services} />
+      
+      {/* 3. What We Do */}
+      <WhatWeDo />
+      
+      {/* 4. Our Services */}
+      <ServicesCarousel />
+      
+      {/* 5. Sectors */}
+      <SectorsMarquee />
+      
+      {/* 6. Featured Case Study */}
       <FeaturedCaseStudy caseStudy={featuredCaseStudy} />
-      <TrackRecord stats={trackRecord} />
+      
+      {/* 7. Our Process */}
       <ProcessTimeline />
+      
+      {/* 8. Our Work */}
       <WorkGrid caseStudies={caseStudies} />
-      <ClientsPartners clients={clients} partners={partners} testimonials={testimonials} />
+      
+      {/* 9. Companies We've Worked With */}
+      <LogoWall />
+      
+      {/* 10. Insights */}
       <InsightsSection insights={insights} />
-      <TeamSection members={team} />
-      <EcosystemSection />
+      
+      {/* 11. The Team */}
+      <TeamSection />
+      
+      {/* 12. Invest With Us */}
+      <InvestWithUs />
+      
+      {/* 13. Careers */}
+      <CareersTeaser />
+      
+      {/* 14. Our Commitment */}
+      <CommitmentParallax />
+      
+      {/* 15. Contact / CTA */}
       <CtaSection />
     </>
   );

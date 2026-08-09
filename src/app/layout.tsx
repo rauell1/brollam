@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
-import { Analytics } from "@vercel/analytics/next";
+import { Analytics } from "@vercel/analytics/react";
 import { site } from "@/lib/config";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import Script from "next/script";

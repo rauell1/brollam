@@ -56,8 +56,8 @@ export default async function ContactPage() {
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "Contact" }]}
         title={
           <>
-            Let&apos;s Build Something <br className="hidden sm:block" />
-            <em className="text-accent italic">Worth Talking About.</em>
+            Your work deserves <br className="hidden sm:block" />
+            <em className="text-accent italic">to be seen.</em>
           </>
         }
         description="Tell us where you are and where you want to be seen. The more honest the brief, the better the answer."
@@ -77,74 +77,31 @@ export default async function ContactPage() {
                 </p>
               </Reveal>
 
-              {channels.length > 0 && (
-                <Reveal delay={0.1}>
-                  <ul className="mt-8 space-y-4">
-                    {channels.map((channel) => (
-                      <li key={channel.label}>
-                        <a
-                          href={channel.href!}
-                          target={channel.href!.startsWith("http") ? "_blank" : undefined}
-                          rel={channel.href!.startsWith("http") ? "noreferrer" : undefined}
-                          className="group flex items-center gap-4 rounded-sm border border-border bg-card px-5 py-4 transition-colors hover:border-accent/40"
-                        >
-                          <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-sm border border-border-strong text-accent">
-                            <channel.icon className="h-4.5 w-4.5" strokeWidth={1.75} aria-hidden="true" />
-                          </span>
-                          <span>
-                            <span className="block text-[0.65rem] font-semibold tracking-[0.24em] text-muted-foreground uppercase">
-                              {channel.label}
-                            </span>
-                            <span className="mt-0.5 block text-sm font-medium text-foreground transition-colors group-hover:text-accent-strong">
-                              {channel.value}
-                            </span>
-                          </span>
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </Reveal>
-              )}
-
-              <Reveal delay={0.16}>
-                <div className="mt-8 rounded-sm border border-border bg-card px-5 py-4">
-                  <p className="text-[0.65rem] font-semibold tracking-[0.24em] text-muted-foreground uppercase">
-                    Studio
-                  </p>
-                  <p className="mt-1.5 text-sm font-medium text-foreground">{site.location}</p>
-                  <p className="mt-1 text-xs text-muted-foreground">
-                    Working with clients across the region and beyond.
-                  </p>
+              <Reveal delay={0.1}>
+                <div className="mt-8 grid gap-4">
+                  <div className="rounded-sm border border-border bg-card px-5 py-4">
+                    <p className="text-[0.65rem] font-semibold tracking-[0.24em] text-muted-foreground uppercase">Based In</p>
+                    <p className="mt-1.5 text-sm font-medium text-foreground">Nairobi, Kenya</p>
+                  </div>
+                  <div className="rounded-sm border border-border bg-card px-5 py-4">
+                    <p className="text-[0.65rem] font-semibold tracking-[0.24em] text-muted-foreground uppercase">Working Across</p>
+                    <p className="mt-1.5 text-sm font-medium text-foreground">East & West Africa</p>
+                  </div>
+                  <div className="rounded-sm border border-border bg-card px-5 py-4">
+                    <p className="text-[0.65rem] font-semibold tracking-[0.24em] text-muted-foreground uppercase">Response Time</p>
+                    <p className="mt-1.5 text-sm font-medium text-foreground">Within 48 hours</p>
+                  </div>
+                  <div className="rounded-sm border border-border bg-card px-5 py-4">
+                    <p className="text-[0.65rem] font-semibold tracking-[0.24em] text-muted-foreground uppercase">Availability</p>
+                    <p className="mt-1.5 text-sm font-medium text-accent">New engagements, next quarter</p>
+                  </div>
                 </div>
               </Reveal>
-
-              {site.socials.length > 0 && (
-                <Reveal delay={0.2}>
-                  <div className="mt-8">
-                    <p className="text-[0.65rem] font-semibold tracking-[0.24em] text-muted-foreground uppercase">
-                      Follow
-                    </p>
-                    <div className="mt-3 flex flex-wrap gap-x-5 gap-y-2">
-                      {site.socials.map((social) => (
-                        <a
-                          key={social.label}
-                          href={social.href}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="text-sm text-muted-foreground transition-colors hover:text-accent"
-                        >
-                          {social.label}
-                        </a>
-                      ))}
-                    </div>
-                  </div>
-                </Reveal>
-              )}
             </div>
 
             <Reveal delay={0.1}>
               <div className="rounded-md border border-border bg-card p-6 sm:p-9">
-                <h2 className="font-display text-2xl text-foreground">Tell Us About The Project</h2>
+                <h2 className="font-display text-2xl text-foreground">Founder / Corporate Briefing</h2>
                 <p className="mt-2 mb-8 text-sm text-muted-foreground">
                   Fields marked * are required.
                 </p>

@@ -29,16 +29,26 @@ export const site = {
 
 export const mainNav = [
   { label: "Home", href: "/" },
-  { label: "About", href: "/about" },
-  { label: "Services", href: "/services" },
-  { label: "Case Studies", href: "/case-studies" },
-  { label: "Insights", href: "/insights" },
+  { label: "Services", href: "/#services" },
+  { label: "Companies", href: "/#companies" },
+  { label: "Team", href: "/#team" },
+  { label: "Invest", href: "/#invest" },
   { label: "Careers", href: "/careers" },
   { label: "Contact", href: "/contact" },
 ] as const;
 
 export const footerNav = [
-  ...mainNav,
+  { label: "Home", href: "/" },
+  { label: "What We Do", href: "/#what-we-do" },
+  { label: "Services", href: "/#services" },
+  { label: "Sectors", href: "/#sectors" },
+  { label: "Companies", href: "/#companies" },
+  { label: "Team", href: "/#team" },
+  { label: "Invest With Us", href: "/#invest" },
+  { label: "Careers", href: "/careers" },
+  { label: "About", href: "/about" },
+  { label: "Case Studies", href: "/case-studies" },
+  { label: "Insights", href: "/insights" },
   { label: "Privacy Policy", href: "/privacy" },
   { label: "Terms & Conditions", href: "/terms" },
 ] as const;

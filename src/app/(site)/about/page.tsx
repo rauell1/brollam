@@ -166,7 +166,7 @@ export default async function AboutPage() {
         </Container>
       </section>
 
-      <TeamSection members={team} />
+      <TeamSection />
       <CtaSection />
     </>
   );

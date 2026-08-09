@@ -1,7 +1,34 @@
-import { processStages } from "@/lib/content/sections";
 import { Container } from "./container";
 import { RevealGroup, RevealItem } from "./reveal";
 import { SectionHeader } from "./section-header";
+
+const processStages = [
+  {
+    number: "01",
+    name: "Discover",
+    description: "Business, audience and investor audit",
+  },
+  {
+    number: "02",
+    name: "Position",
+    description: "Narrative, brand and messaging built around what makes you fundable",
+  },
+  {
+    number: "03",
+    name: "Build",
+    description: "Websites, content, campaign assets and pitch materials, produced in-house",
+  },
+  {
+    number: "04",
+    name: "Launch",
+    description: "PR, media outreach, digital campaigns and investor-facing communications",
+  },
+  {
+    number: "05",
+    name: "Sustain",
+    description: "Reporting and growth recommendations that keep momentum compounding",
+  },
+];
 
 export function ProcessTimeline() {
   return (
@@ -9,9 +36,8 @@ export function ProcessTimeline() {
       <Container>
         <SectionHeader
           id="how-we-work"
-          eyebrow="Process"
-          title="How We Work"
-          description="A simple process, applied consistently."
+          eyebrow="Our Process"
+          title="A disciplined process, built for founders with no time to waste."
           className="mb-16"
         />
 
