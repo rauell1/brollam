@@ -7,10 +7,13 @@ export function TeamTiltCard({
   name,
   role,
   bio,
+  expertise = [],
 }: {
   name: string;
   role: string;
   bio: string;
+  /** Practice areas, shown as chips beneath the biography. */
+  expertise?: string[];
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const x = useMotionValue(0);
@@ -49,9 +52,23 @@ export function TeamTiltCard({
         <p className="mt-2 font-mono text-[0.65rem] tracking-[0.18em] text-accent uppercase">
           {role}
         </p>
-        <p className="mt-4 text-sm leading-relaxed text-muted-foreground group-hover:text-foreground transition-colors">
-          {bio}
-        </p>
+        {bio ? (
+          <p className="mt-4 text-sm leading-relaxed text-muted-foreground transition-colors group-hover:text-foreground">
+            {bio}
+          </p>
+        ) : null}
+        {expertise.length > 0 ? (
+          <ul className="mt-5 flex flex-wrap gap-1.5">
+            {expertise.map((item) => (
+              <li
+                key={item}
+                className="rounded-full border border-border px-2.5 py-1 text-[0.68rem] text-muted-foreground transition-colors group-hover:border-accent/30"
+              >
+                {item}
+              </li>
+            ))}
+          </ul>
+        ) : null}
       </div>
     </m.div>
   );
