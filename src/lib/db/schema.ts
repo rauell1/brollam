@@ -401,3 +401,23 @@ export const insightsRelations = relations(insights, ({ one }) => ({
 export const teamMembersRelations = relations(teamMembers, ({ many }) => ({
   insights: many(insights),
 }));
+
+/* ------------------------------------------------------------------ */
+/* Privacy & Consent Logs                                              */
+/* ------------------------------------------------------------------ */
+
+export const consentLogs = pgTable(
+  "consent_logs",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    anonymizedIp: text("anonymized_ip").notNull(),
+    geolocation: text("geolocation").notNull(), // e.g., 'EU', 'CA', 'GLOBAL'
+    consentState: text("consent_state").notNull(), // JSON string or comma-separated
+    version: text("version").notNull().default("1.0"),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => [
+    index("consent_logs_geo_idx").on(t.geolocation),
+    index("consent_logs_created_idx").on(t.createdAt),
+  ],
+);
