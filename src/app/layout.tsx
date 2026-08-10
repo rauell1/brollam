@@ -5,6 +5,8 @@ import { Analytics } from "@vercel/analytics/react";
 import { site } from "@/lib/config";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import Script from "next/script";
+import { headers } from "next/headers";
+import { ConsentProvider } from "@/components/consent/ConsentProvider";
 import "./globals.css";
 
 /*
@@ -86,7 +88,7 @@ const themeScript = `
   })();
 `;
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default async function RootLayout({ children }: LayoutProps<"/">) {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -95,6 +97,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     "logo": `${site.url}/media/dev/og-image.jpg`,
     "description": site.description
   };
+
+  const headersList = await headers();
+  const strictnessHeader = headersList.get("x-privacy-strictness");
+  const strictness = (strictnessHeader === "GDPR" || strictnessHeader === "CCPA") 
+    ? strictnessHeader 
+    : "GLOBAL";
 
   return (
     <html
@@ -114,7 +122,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body className="flex min-h-full flex-col bg-background font-sans text-foreground">
-        {children}
+        <ConsentProvider strictness={strictness}>
+          {children}
+        </ConsentProvider>
         <Analytics />
       </body>
       <GoogleAnalytics gaId="G-PV5JV9248L" />

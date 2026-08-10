@@ -421,3 +421,13 @@ export const consentLogs = pgTable(
     index("consent_logs_created_idx").on(t.createdAt),
   ],
 );
+
+export const consentConfig = pgTable(
+  "consent_config",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    bannerTitle: text("banner_title").notNull().default("Your Privacy Matters"),
+    primaryColor: text("primary_color").notNull().default("#7877C6"),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+  }
+);

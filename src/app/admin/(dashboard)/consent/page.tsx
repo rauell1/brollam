@@ -1,8 +1,15 @@
 import { requireFullAdmin } from "@/lib/auth/guard";
 import Link from "next/link";
+import { saveConsentConfig } from "./actions";
+import { db } from "@/lib/db";
+import { consentConfig } from "@/lib/db/schema";
+import { ScanButton } from "./ScanButton";
 
 export default async function ConsentManagerPage() {
   await requireFullAdmin(); // RBAC enforced
+
+  const configRow = await db.select().from(consentConfig).limit(1);
+  const currentConfig = configRow[0] || { bannerTitle: "Your Privacy Matters", primaryColor: "#7877C6" };
 
   return (
     <div className="p-8 space-y-8 max-w-6xl mx-auto">
@@ -17,20 +24,19 @@ export default async function ConsentManagerPage() {
           <p className="text-sm text-muted-foreground mb-6">
             Configure the appearance and text of the cookie banner across multiple languages.
           </p>
-          <div className="space-y-4">
-             {/* Form placeholders */}
+          <form action={saveConsentConfig} className="space-y-4">
              <div>
                <label className="block text-sm font-medium mb-1">Banner Title</label>
-               <input type="text" className="w-full bg-background border border-input rounded px-3 py-2 text-sm" defaultValue="Your Privacy Matters" />
+               <input name="bannerTitle" type="text" className="w-full bg-background border border-input rounded px-3 py-2 text-sm" defaultValue={currentConfig.bannerTitle} />
              </div>
              <div>
                <label className="block text-sm font-medium mb-1">Primary Color</label>
-               <input type="color" className="w-10 h-10 p-1 bg-background border border-input rounded" defaultValue="#7877C6" />
+               <input name="primaryColor" type="color" className="w-10 h-10 p-1 bg-background border border-input rounded" defaultValue={currentConfig.primaryColor} />
              </div>
-             <button className="bg-accent text-accent-foreground px-4 py-2 text-sm font-medium rounded hover:opacity-90 mt-2">
+             <button type="submit" className="bg-accent text-accent-foreground px-4 py-2 text-sm font-medium rounded hover:opacity-90 mt-2">
                Save Configuration
              </button>
-          </div>
+          </form>
         </div>
 
         {/* Scanner */}
@@ -39,16 +45,7 @@ export default async function ConsentManagerPage() {
           <p className="text-sm text-muted-foreground mb-4">
             Automatically detect first and third-party trackers across the site. This helps categorize cookies automatically.
           </p>
-          <button className="bg-foreground text-background px-4 py-2 text-sm font-medium rounded hover:opacity-90">
-            Run Automated Scan
-          </button>
-          <div className="mt-6 border-t border-border pt-4">
-            <h3 className="text-sm font-medium mb-2">Last Scan Results</h3>
-            <ul className="text-sm text-muted-foreground space-y-1">
-              <li>14 Trackers Detected</li>
-              <li>3 Uncategorized Cookies</li>
-            </ul>
-          </div>
+          <ScanButton />
         </div>
 
         {/* Navigation Links */}
