@@ -1,12 +1,13 @@
 import { requireFullAdmin } from "@/lib/auth/guard";
 import Link from "next/link";
 import { saveConsentConfig } from "./actions";
-import { db } from "@/lib/db";
+import { requireDb } from "@/lib/db/client";
 import { consentConfig } from "@/lib/db/schema";
 import { ScanButton } from "./ScanButton";
 
 export default async function ConsentManagerPage() {
   await requireFullAdmin(); // RBAC enforced
+  const db = requireDb();
 
   const configRow = await db.select().from(consentConfig).limit(1);
   const currentConfig = configRow[0] || { bannerTitle: "Your Privacy Matters", primaryColor: "#7877C6" };

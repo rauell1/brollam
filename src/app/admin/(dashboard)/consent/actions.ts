@@ -1,6 +1,6 @@
 "use server";
 
-import { db } from "@/lib/db";
+import { requireDb } from "@/lib/db/client";
 import { consentConfig } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
@@ -11,6 +11,7 @@ export async function saveConsentConfig(formData: FormData) {
 
   const title = formData.get("bannerTitle") as string;
   const color = formData.get("primaryColor") as string;
+  const db = requireDb();
 
   // For simplicity, we just insert a new config row or update the first one
   const existing = await db.select().from(consentConfig).limit(1);
