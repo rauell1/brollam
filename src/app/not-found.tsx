@@ -9,6 +9,10 @@ export const metadata: Metadata = {
 export default function NotFound() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-background px-6 py-24 text-center texture-grain">
+      {/* Engaging illustration placeholder */}
+      <div className="mb-8 flex h-40 w-40 items-center justify-center rounded-full bg-accent/10 border-2 border-dashed border-accent">
+        <span className="text-6xl" role="img" aria-label="lost">🧭</span>
+      </div>
       <p className="text-xs font-semibold tracking-[0.35em] text-accent uppercase">404</p>
       <h1 className="mt-6 font-display text-5xl leading-[1.05] text-foreground sm:text-7xl">
         This page went <em className="text-accent italic">unseen.</em>
