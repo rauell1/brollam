@@ -29,5 +29,4 @@ export async function saveConsentConfig(formData: FormData) {
   }
 
   revalidatePath("/admin/consent");
-  return { success: true };
 }
