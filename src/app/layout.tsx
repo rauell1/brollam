@@ -99,7 +99,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
   };
 
   const headersList = await headers();
-  const strictnessHeader = headersList.get("x-privacy-strictness");
+  const strictnessHeader = headersList.get("x-consent-strictness");
   const strictness = (strictnessHeader === "GDPR" || strictnessHeader === "CCPA") 
     ? strictnessHeader 
     : "GLOBAL";
